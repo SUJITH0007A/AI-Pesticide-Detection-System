@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FreshScan — Scan Product</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-background": "#191c1d",
+                        "on-tertiary-container": "#fffbff",
+                        "on-surface-variant": "#3d4943",
+                        "inverse-primary": "#68dbae",
+                        "secondary-fixed-dim": "#ffb869",
+                        "secondary": "#885200",
+                        "surface-container-highest": "#e1e3e4",
+                        "primary": "#00694c",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary-container": "#f5fff7",
+                        "outline-variant": "#bccac1",
+                        "secondary-fixed": "#ffdcbb",
+                        "on-tertiary-fixed-variant": "#900a18",
+                        "on-secondary-container": "#704200",
+                        "surface-variant": "#e1e3e4",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#2b1700",
+                        "surface": "#f8f9fa",
+                        "primary-fixed": "#86f8c9",
+                        "on-primary-fixed": "#002115",
+                        "tertiary-fixed": "#ffdad7",
+                        "on-secondary-fixed-variant": "#673d00",
+                        "secondary-container": "#fdad4e",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#00513a",
+                        "tertiary": "#af262a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-dim": "#d9dadb",
+                        "primary-fixed-dim": "#68dbae",
+                        "on-primary": "#ffffff",
+                        "outline": "#6d7a73",
+                        "primary-container": "#008560",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "surface-container": "#edeeef",
+                        "tertiary-container": "#d23f40",
+                        "surface-bright": "#f8f9fa",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-fixed": "#410004",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2e3132",
+                        "background": "#f8f9fa",
+                        "surface-tint": "#006c4e",
+                        "tertiary-fixed-dim": "#ffb3ae"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "4px",
+                        "base": "8px",
+                        "container-margin": "16px",
+                        "gutter": "12px",
+                        "stack-lg": "24px",
+                        "stack-md": "12px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                        "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-active {
+            @apply bg-primary-container/10 text-primary border-r-4 border-primary;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Desktop Side Navigation -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant hidden lg:flex flex-col z-50">
+<div class="p-6 flex items-center gap-base">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="biotech">biotech</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">FreshScan</span>
+</div>
+<nav class="flex-1 mt-stack-lg px-4 space-y-2">
+<a class="flex items-center gap-stack-md p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body-lg">Dashboard</span>
+</a>
+<a class="flex items-center gap-stack-md p-3 rounded-lg bg-primary-container/10 text-primary border-l-4 border-primary" href="#">
+<span class="material-symbols-outlined">barcode_scanner</span>
+<span class="font-body-lg font-semibold">New Scan</span>
+</a>
+<a class="flex items-center gap-stack-md p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-lg">Scan History</span>
+</a>
+<a class="flex items-center gap-stack-md p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-lg">Nutrient Data</span>
+</a>
+<a class="flex items-center gap-stack-md p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-lg">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-outline-variant">
+<div class="flex items-center gap-stack-md p-2">
+<div class="w-10 h-10 rounded-full bg-primary-fixed-dim border border-outline-variant overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm27Iv6RLb7EfxDHgZJlCZtGaI_A6k-F1YRUSmDIVoj5-QyxmB9_vzW7dvGBGPGf1euesKNXBN9ohjF08lk_ZYKimxDsQUZ7bul5T2duapl3rYTsRA8V4o6TBM0nzLD0QTvIpLsOUx2hKvO9_Uhp-_qAfn2l1M7rb0a1ibjZOHDPBJe_OtoJ-VCKLaDIDypgMZw4cbVeRLJMI2HNQ0dvvB0-g1QIPArGiivy2-o7JZTYAvCUnerPXJKGSCfwvgYcVBEHeYoncalS8t"/>
+</div>
+<div>
+<p class="font-body-md font-semibold truncate">Dr. Alex Rivers</p>
+<p class="font-label-md text-on-surface-variant">Premium Researcher</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopBar (Mobile only + Search/Notifications Desktop) -->
+<header class="fixed top-0 lg:left-64 right-0 bg-surface/80 backdrop-blur-md border-b border-outline-variant px-container-margin h-16 flex items-center justify-between z-40">
+<div class="flex items-center gap-base lg:hidden">
+<span class="material-symbols-outlined text-primary" data-icon="biotech">biotech</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">FreshScan</span>
+</div>
+<div class="hidden lg:flex flex-1 max-w-md ml-4">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-high border-none rounded-full pl-10 py-2 text-body-md focus:ring-2 focus:ring-primary/20" placeholder="Search previous scans..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-stack-md">
+<span class="font-label-md text-label-md px-base py-stack-sm bg-primary-container/10 text-primary border border-primary/20 rounded-full hidden sm:block">v2.4.0-MobileNet</span>
+<button class="material-symbols-outlined p-base rounded-full hover:bg-surface-container-low transition-colors duration-200">notifications</button>
+<button class="material-symbols-outlined p-base rounded-full hover:bg-surface-container-low lg:hidden">menu</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="pt-20 lg:ml-64 px-container-margin lg:px-12 pb-12 max-w-7xl">
+<div class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<nav class="flex items-center gap-2 text-label-md text-outline mb-2">
+<a class="hover:text-primary" href="#">Dashboard</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface">New Analysis</span>
+</nav>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Fresh Product Analysis</h1>
+<p class="text-on-surface-variant font-body-md mt-1">Upload high-resolution images for nutrient extraction and quality assessment.</p>
+</div>
+</div>
+<!-- Bento Grid Desktop Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg items-start">
+<!-- Left Column: Upload & Preview (Span 5) -->
+<div class="lg:col-span-5 space-y-gutter">
+<!-- Upload Zone -->
+<div class="bg-surface-container-lowest border-2 border-dashed border-outline-variant rounded-xl p-8 flex flex-col items-center justify-center text-center space-y-4 min-h-[300px] transition-all hover:border-primary group cursor-pointer">
+<div class="w-16 h-16 bg-primary-container/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<div>
+<p class="font-headline-md text-on-surface">Drop product image here</p>
+<p class="font-body-md text-on-surface-variant mt-1">Supports JPG, PNG, WEBP and RAW formats</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-6 py-2 bg-primary text-on-primary rounded-full font-title-lg text-title-lg hover:bg-primary-container transition-colors shadow-sm">
+                            Browse Files
+                        </button>
+<span class="text-outline font-label-md">OR</span>
+<button class="flex items-center gap-2 px-6 py-2 border border-outline text-on-surface-variant rounded-full font-title-lg text-title-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+                            Camera
+                        </button>
+</div>
+</div>
+<!-- Preview Panel -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col shadow-sm">
+<div class="flex items-center justify-between px-4 py-3 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="image">image</span>
+<span class="font-title-lg text-title-lg text-on-surface">Current Preview</span>
+</div>
+<button class="text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="relative aspect-video lg:aspect-square bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="A macro photograph of a single vibrant red organic tomato sitting on a clinical, white laboratory surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOn08z-gTwNoP6OFubYn54oKeSVUtsJnfN-IyCBQzfA7_-n66CoVm0BRx-UOvNDtQA7fSAk6nKZOZUt-wtC5YHGST41olhUD3LphUERlVJWrkWShYaMPIL-3xmgw2_FDIqncBV2d7oQXm8ZCH3dbz9NdP3RcIdI38DPNuWxOMTdJvVStGIReYYzOCsUE5CqLQ4kA7v_L3QjbAnjp6IwssP_B73gBIuFK1hRWOiHGRFT65btLnyXhWe3PJ-Wx8CcpPUOjMguyxyjfkP"/>
+</div>
+<div class="p-4 bg-surface-container-lowest">
+<div class="flex justify-between items-center mb-stack-sm">
+<span class="font-body-lg font-semibold text-on-surface">tomato_01.jpg</span>
+<span class="font-label-md text-on-surface-variant">4032 × 3024 • 1.2MB</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[45%] transition-all"></div>
+</div>
+<span class="font-label-md text-label-md text-primary font-bold">45% UPLOADED</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Pipeline & Actions (Span 7) -->
+<div class="lg:col-span-7 space-y-gutter">
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between">
+<h2 class="font-title-lg text-title-lg text-on-surface flex items-center gap-base">
+<span class="material-symbols-outlined text-primary" data-icon="settings_suggest">settings_suggest</span>
+                            Pipeline Status
+                        </h2>
+<span class="text-label-md font-bold text-primary animate-pulse flex items-center gap-1">
+<span class="w-2 h-2 bg-primary rounded-full"></span>
+                            3/5 STEPS COMPLETED
+                        </span>
+</div>
+<div class="divide-y divide-outline-variant">
+<!-- Step 1: Done -->
+<div class="p-6 flex items-start gap-stack-lg bg-primary/5">
+<div class="mt-1">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<p class="font-body-lg font-bold text-on-surface">Image Resizing</p>
+<p class="font-label-md text-on-surface-variant">Downscaled to 224×224 pixels</p>
+</div>
+<div class="text-right">
+<span class="font-label-md text-primary font-bold bg-primary-fixed-dim/30 px-3 py-1 rounded-full uppercase tracking-wider">Completed</span>
+<p class="text-[10px] text-outline mt-1 italic">Lat: 12ms</p>
+</div>
+</div>
+</div>
+<!-- Step 2: Done -->
+<div class="p-6 flex items-start gap-stack-lg bg-primary/5">
+<div class="mt-1">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<p class="font-body-lg font-bold text-on-surface">Pixel Normalization</p>
+<p class="font-label-md text-on-surface-variant">RGB vectors scaled to [0, 1] interval</p>
+</div>
+<div class="text-right">
+<span class="font-label-md text-primary font-bold bg-primary-fixed-dim/30 px-3 py-1 rounded-full uppercase tracking-wider">Completed</span>
+<p class="text-[10px] text-outline mt-1 italic">Lat: 8ms</p>
+</div>
+</div>
+</div>
+<!-- Step 3: In Progress -->
+<div class="p-6 flex items-start gap-stack-lg bg-surface-bright border-l-4 border-primary">
+<div class="mt-1">
+<div class="w-7 h-7 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+</div>
+<div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<p class="font-body-lg font-bold text-on-surface">Noise Reduction</p>
+<p class="font-label-md text-primary">Applying Gaussian blur &amp; Bilateral filters...</p>
+<div class="mt-3 h-1 w-32 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%] animate-pulse"></div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-md text-primary font-bold uppercase tracking-wider">In Progress</span>
+<p class="text-[10px] text-outline mt-1 italic">EST: 450ms</p>
+</div>
+</div>
+</div>
+<!-- Step 4: Pending -->
+<div class="p-6 flex items-start gap-stack-lg opacity-40 bg-surface-container-low">
+<div class="mt-1">
+<span class="material-symbols-outlined text-outline text-3xl" data-icon="pending">pending</span>
+</div>
+<div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<p class="font-body-lg font-bold text-on-surface">Background Removal</p>
+<p class="font-label-md text-on-surface-variant">Segmenting product from environment</p>
+</div>
+<div class="text-right">
+<span class="font-label-md text-on-surface-variant font-bold uppercase tracking-wider">Pending</span>
+</div>
+</div>
+</div>
+<!-- Step 5: Pending -->
+<div class="p-6 flex items-start gap-stack-lg opacity-40 bg-surface-container-low">
+<div class="mt-1">
+<span class="material-symbols-outlined text-outline text-3xl" data-icon="analytics">analytics</span>
+</div>
+<div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<p class="font-body-lg font-bold text-on-surface">CNN Feature Extraction</p>
+<p class="font-label-md text-on-surface-variant">Mapping visual tokens to nutrient DB</p>
+</div>
+<div class="text-right">
+<span class="font-label-md text-on-surface-variant font-bold uppercase tracking-wider">Pending</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Primary Action -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 text-center space-y-4 shadow-sm">
+<button class="w-full max-w-md py-4 rounded-full bg-outline-variant text-on-surface-variant font-headline-md text-headline-md cursor-not-allowed transition-all shadow-md inline-flex items-center justify-center gap-stack-md" disabled="">
+<span class="material-symbols-outlined">data_exploration</span>
+                        Analyze Product Now
+                    </button>
+<p class="font-body-md text-on-surface-variant">
+                        Image processing is at <span class="text-primary font-bold">45%</span>. 
+                        The analyze button will unlock once the pipeline reaches Step 5.
+                    </p>
+<div class="flex items-center justify-center gap-6 pt-4 border-t border-outline-variant">
+<div class="flex items-center gap-2 text-label-md text-outline">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+                            Encrypted Transfer
+                        </div>
+<div class="flex items-center gap-2 text-label-md text-outline">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+                            GPU Accelerated
+                        </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile BottomNavBar (Visible only on small screens) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex lg:hidden justify-around items-center px-4 py-2 pb-safe bg-surface border-t border-outline-variant shadow-[0px_-4px_12px_rgba(0,0,0,0.04)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary bg-primary-container/10 rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined">barcode_scanner</span>
+<span class="font-label-md">Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md">Profile</span>
+</a>
+</nav>
+</body></html>

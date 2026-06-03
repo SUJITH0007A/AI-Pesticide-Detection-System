@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FreshScan - Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-low": "#f3f4f5",
+            "surface-dim": "#d9dadb",
+            "on-secondary-fixed-variant": "#673d00",
+            "on-secondary": "#ffffff",
+            "on-secondary-container": "#704200",
+            "on-secondary-fixed": "#2b1700",
+            "on-primary-container": "#f5fff7",
+            "inverse-surface": "#2e3132",
+            "secondary-fixed-dim": "#ffb869",
+            "tertiary-container": "#d23f40",
+            "on-primary-fixed-variant": "#00513a",
+            "inverse-primary": "#68dbae",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "secondary": "#885200",
+            "tertiary-fixed-dim": "#ffb3ae",
+            "primary": "#00694c",
+            "on-error-container": "#93000a",
+            "surface": "#f8f9fa",
+            "outline": "#6d7a73",
+            "surface-bright": "#f8f9fa",
+            "on-tertiary-fixed-variant": "#900a18",
+            "surface-tint": "#006c4e",
+            "on-surface-variant": "#3d4943",
+            "surface-container-highest": "#e1e3e4",
+            "primary-fixed": "#86f8c9",
+            "inverse-on-surface": "#f0f1f2",
+            "primary-container": "#008560",
+            "tertiary-fixed": "#ffdad7",
+            "surface-container-high": "#e7e8e9",
+            "outline-variant": "#bccac1",
+            "primary-fixed-dim": "#68dbae",
+            "on-primary": "#ffffff",
+            "error-container": "#ffdad6",
+            "background": "#f8f9fa",
+            "on-tertiary-fixed": "#410004",
+            "surface-container": "#edeeef",
+            "secondary-fixed": "#ffdcbb",
+            "on-background": "#191c1d",
+            "on-primary-fixed": "#002115",
+            "on-error": "#ffffff",
+            "on-tertiary-container": "#fffbff",
+            "tertiary": "#af262a",
+            "surface-variant": "#e1e3e4",
+            "on-surface": "#191c1d",
+            "secondary-container": "#fdad4e",
+            "on-tertiary": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "stack-md": "12px",
+            "gutter": "12px",
+            "container-margin": "16px",
+            "base": "8px",
+            "stack-sm": "4px",
+            "stack-lg": "24px"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "body-md": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "title-lg": ["Inter"],
+            "body-lg": ["Inter"]
+          },
+          "fontSize": {
+            "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+            "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+            "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col md:flex-row">
+<!-- Desktop Side Navigation Shell -->
+<aside class="hidden md:flex flex-col w-64 bg-surface h-screen fixed left-0 top-0 border-r border-outline-variant z-50">
+<div class="px-6 py-8 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">biotech</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">FreshScan</h1>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-xl font-label-md" href="#">
+<span class="material-symbols-outlined">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-xl font-label-md" href="#">
+<span class="material-symbols-outlined">barcode_scanner</span>
+<span>Scan</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-xl font-label-md" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>History</span>
+</a>
+<!-- Active Navigation for Profile -->
+<a class="flex items-center gap-4 px-4 py-3 text-primary bg-primary-container/10 transition-colors rounded-xl font-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-bold">Profile</span>
+</a>
+</nav>
+<div class="p-4 border-t border-outline-variant">
+<div class="bg-primary-container/5 p-4 rounded-xl">
+<p class="text-label-md text-primary font-bold uppercase tracking-wider mb-1">Status</p>
+<p class="text-body-md font-semibold text-on-surface">Pro Plan</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-container-margin md:p-stack-lg min-h-screen pb-24 md:pb-stack-lg">
+<!-- Profile Header Section -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+<div class="flex items-center gap-6">
+<div class="relative">
+<img alt="Alex Johnson" class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-surface-container shadow-sm" data-alt="A professional, high-quality headshot of a middle-aged man with a friendly smile, clean-cut appearance, and glasses. He is set against a soft-focus, minimalist laboratory background with clean white surfaces and subtle teal accents. The lighting is bright and even, conveying a modern light-mode aesthetic with clarity and professional trust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLP-A9B1AE2g-1zs8_sP_g8vDMV-0cV6HenmN2udysBiA1sta4Aq73WT38k7yv4kN-xH-7TG91e_tY90O-ubtptUcEaG2ov9e4F_2YuxdO76CdrGqgjpGlJzklYsfs1EdublfqSvtmVIfsSzJoBwQyLi82a2srQnC75p5wbpEyoFUXw4U6Aqa0GF88OzJuD9-cNmNNp6OrGTqYnXE90n9BIaokwh2DGSBsb6NUEixU9YpBv2TCDYVe2aPByuVGwfbS6ycUQbhbTtpZ"/>
+<div class="absolute bottom-1 right-1 bg-primary text-on-primary rounded-full p-1 border-2 border-surface">
+<span class="material-symbols-outlined text-sm">verified</span>
+</div>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Alex Johnson</h2>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-secondary-container/20 text-on-secondary-container text-label-md px-3 py-1 rounded-full font-bold uppercase tracking-tight">Pro Plan</span>
+<span class="text-on-surface-variant text-body-md">• Joined March 2024</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface border border-outline-variant px-6 py-2.5 rounded-xl font-label-md text-primary hover:bg-surface-container-low transition-colors shadow-sm">Edit Profile</button>
+</div>
+</header>
+<!-- Scan Statistics Bento Grid -->
+<section class="mb-12">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-6">Scan Statistics</h3>
+<div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-gutter">
+<!-- Large Card: Total Lifetime Scans -->
+<div class="md:col-span-4 lg:col-span-3 bg-surface border border-[#E9ECEF] rounded-xl p-6 relative overflow-hidden flex flex-col justify-between shadow-[0px_4px_12px_rgba(0,0,0,0.04)] h-56">
+<div class="relative z-10">
+<p class="text-label-md text-on-surface-variant font-bold uppercase tracking-widest mb-2">Total Lifetime Scans</p>
+<h4 class="text-[64px] font-extrabold text-primary leading-none">124</h4>
+</div>
+<div class="absolute top-0 right-0 h-full w-1/2 opacity-5 pointer-events-none transform translate-x-4 rotate-6">
+<span class="material-symbols-outlined text-[200px]">barcode_scanner</span>
+</div>
+<div class="relative z-10">
+<p class="text-body-md text-on-surface-variant">+12% increase this month</p>
+</div>
+</div>
+<!-- Medium Card: Organic -->
+<div class="md:col-span-2 lg:col-span-3 bg-surface border-t-2 border-primary border-x border-b border-[#E9ECEF] rounded-xl p-6 shadow-[0px_4px_12px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-4">
+<span class="material-symbols-outlined text-primary bg-primary-container/10 p-2 rounded-lg">eco</span>
+<span class="text-headline-md font-bold text-on-surface">86</span>
+</div>
+<p class="font-title-lg text-title-lg mb-1">Organic</p>
+<p class="text-body-md text-on-surface-variant mb-4">Pure and untreated produce</p>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 69%"></div>
+</div>
+<p class="text-label-md text-on-surface-variant mt-2">69% of total scans</p>
+</div>
+<!-- Medium Card: Treated -->
+<div class="md:col-span-3 lg:col-span-3 bg-surface border-t-2 border-secondary border-x border-b border-[#E9ECEF] rounded-xl p-6 shadow-[0px_4px_12px_rgba(0,0,0,0.04)] flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-4">
+<span class="material-symbols-outlined text-secondary bg-secondary-container/10 p-2 rounded-lg">science</span>
+<span class="text-headline-md font-bold text-on-surface">38</span>
+</div>
+<p class="font-title-lg text-title-lg mb-1">Treated</p>
+<p class="text-body-md text-on-surface-variant mb-4">Post-harvest chemical traces</p>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2">
+<div class="bg-secondary h-2 rounded-full" style="width: 31%"></div>
+</div>
+<p class="text-label-md text-on-surface-variant mt-2">31% of total scans</p>
+</div>
+<!-- Warning Card: High Risk -->
+<div class="md:col-span-3 lg:col-span-3 bg-tertiary-container/5 border border-tertiary-container/30 rounded-xl p-6 shadow-[0px_4px_12px_rgba(0,0,0,0.04)] flex flex-col items-center justify-center text-center">
+<div class="bg-tertiary-container/10 p-4 rounded-full mb-4">
+<span class="material-symbols-outlined text-tertiary text-4xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<h4 class="text-headline-md font-bold text-tertiary">10</h4>
+<p class="font-title-lg text-on-surface font-bold">High Risk Alerts</p>
+<p class="text-body-md text-on-surface-variant mt-1">Hazardous levels detected</p>
+<button class="mt-4 text-tertiary font-bold text-label-md hover:underline">VIEW LOGS</button>
+</div>
+</div>
+</section>
+<!-- Settings & Actions Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-start">
+<!-- Settings Panel -->
+<div class="bg-surface border border-[#E9ECEF] rounded-xl overflow-hidden shadow-[0px_4px_12px_rgba(0,0,0,0.04)]">
+<div class="p-6 border-b border-outline-variant bg-surface-container-lowest">
+<h3 class="font-title-lg text-title-lg text-on-surface">App Settings</h3>
+</div>
+<div class="divide-y divide-outline-variant">
+<!-- Toggle Row -->
+<div class="flex items-center justify-between p-6 hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">notifications_active</span>
+<div>
+<p class="text-body-lg font-semibold">Notification Preferences</p>
+<p class="text-body-md text-on-surface-variant">Real-time alerts for high-risk detections</p>
+</div>
+</div>
+<div class="w-12 h-6 bg-primary rounded-full relative p-1 cursor-pointer">
+<div class="w-4 h-4 bg-on-primary rounded-full absolute right-1"></div>
+</div>
+</div>
+<!-- Info Row -->
+<div class="flex items-center justify-between p-6 hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">smart_toy</span>
+<div>
+<p class="text-body-lg font-semibold">AI Model Version</p>
+<p class="text-body-md text-on-surface-variant">Enhanced spectral analysis engine</p>
+</div>
+</div>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-bold text-on-surface-variant">v2.4.0</span>
+</div>
+<!-- Info Row -->
+<div class="flex items-center justify-between p-6 hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">cloud_done</span>
+<div>
+<p class="text-body-lg font-semibold">Data Storage</p>
+<p class="text-body-md text-on-surface-variant">Sync state with secure cloud</p>
+</div>
+</div>
+<span class="text-label-md font-bold text-primary">Cloud Firestore</span>
+</div>
+</div>
+</div>
+<!-- Action Cluster -->
+<div class="space-y-gutter">
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-8 text-center">
+<span class="material-symbols-outlined text-primary text-5xl mb-4">download_for_offline</span>
+<h4 class="font-title-lg text-on-surface mb-2">Export Data History</h4>
+<p class="text-body-md text-on-surface-variant mb-6 px-4">Download your entire scan history including chemical breakdown and risk analysis as a formatted spreadsheet.</p>
+<button class="w-full bg-primary text-on-primary py-3 px-6 rounded-xl font-bold transition-transform active:scale-95 shadow-md">Export Data as CSV</button>
+</div>
+<div class="bg-surface border border-[#E9ECEF] rounded-xl p-6 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">logout</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">End Session</p>
+<p class="text-body-md text-on-surface-variant">Log out from this device</p>
+</div>
+</div>
+<button class="text-tertiary font-bold hover:bg-tertiary-container/10 px-4 py-2 rounded-lg transition-colors">Log Out</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Mobile Navigation Shell (Bottom Bar) -->
+<footer class="md:hidden">
+<div class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface border-t border-outline-variant shadow-[0px_-4px_12px_rgba(0,0,0,0.04)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">barcode_scanner</span>
+<span class="font-label-md text-label-md">Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary bg-primary-container/10 rounded-full px-4 py-1 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</div>
+</footer>
+</body></html>

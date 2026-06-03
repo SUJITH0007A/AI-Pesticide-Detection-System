@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-background": "#191c1d",
+                    "on-tertiary-container": "#fffbff",
+                    "on-surface-variant": "#3d4943",
+                    "inverse-primary": "#68dbae",
+                    "secondary-fixed-dim": "#ffb869",
+                    "secondary": "#885200",
+                    "surface-container-highest": "#e1e3e4",
+                    "primary": "#00694c",
+                    "surface-container-high": "#e7e8e9",
+                    "on-primary-container": "#f5fff7",
+                    "outline-variant": "#bccac1",
+                    "secondary-fixed": "#ffdcbb",
+                    "on-tertiary-fixed-variant": "#900a18",
+                    "on-secondary-container": "#704200",
+                    "surface-variant": "#e1e3e4",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#2b1700",
+                    "surface": "#f8f9fa",
+                    "primary-fixed": "#86f8c9",
+                    "on-primary-fixed": "#002115",
+                    "tertiary-fixed": "#ffdad7",
+                    "on-secondary-fixed-variant": "#673d00",
+                    "secondary-container": "#fdad4e",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#00513a",
+                    "tertiary": "#af262a",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f3f4f5",
+                    "surface-dim": "#d9dadb",
+                    "primary-fixed-dim": "#68dbae",
+                    "on-primary": "#ffffff",
+                    "outline": "#6d7a73",
+                    "primary-container": "#008560",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "surface-container": "#edeeef",
+                    "tertiary-container": "#d23f40",
+                    "surface-bright": "#f8f9fa",
+                    "on-surface": "#191c1d",
+                    "on-tertiary-fixed": "#410004",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-surface": "#2e3132",
+                    "background": "#f8f9fa",
+                    "surface-tint": "#006c4e",
+                    "tertiary-fixed-dim": "#ffb3ae"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "4px",
+                    "base": "8px",
+                    "container-margin": "16px",
+                    "gutter": "12px",
+                    "stack-lg": "24px",
+                    "stack-md": "12px"
+            },
+            "fontFamily": {
+                    "title-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                    "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen font-body-md selection:bg-primary-fixed-dim selection:text-on-primary-fixed">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full bg-surface dark:bg-on-background shadow-sm border-b border-outline-variant dark:border-outline z-50 flex items-center justify-between px-container-margin h-14 w-full">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary" data-icon="biotech">biotech</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">FreshScan</h1>
+</div>
+<div class="flex items-center gap-gutter">
+<button class="material-symbols-outlined text-on-surface-variant dark:outline-variant hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors duration-200 ease-in-out p-2 rounded-full" data-icon="search">search</button>
+<button class="material-symbols-outlined text-on-surface-variant dark:outline-variant hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors duration-200 ease-in-out p-2 rounded-full" data-icon="more_vert">more_vert</button>
+</div>
+</header>
+<main class="pt-14 pb-24 px-container-margin max-w-7xl mx-auto w-full">
+<!-- Search & Filter Section -->
+<section class="mt-stack-lg">
+<div class="relative flex items-center mb-stack-md max-w-2xl">
+<span class="material-symbols-outlined absolute left-3 text-outline" data-icon="search">search</span>
+<input class="w-full bg-surface-container-lowest border-outline-variant border rounded-xl py-3 pl-10 pr-4 font-body-md text-on-surface placeholder:text-on-surface-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" placeholder="Search scans..." type="text"/>
+</div>
+<div class="flex gap-base overflow-x-auto hide-scrollbar pb-2">
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md active:scale-95 transition-transform">All Scans</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md active:scale-95 transition-transform hover:bg-surface-container-highest">Organic</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md active:scale-95 transition-transform hover:bg-surface-container-highest">Possibly Treated</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md active:scale-95 transition-transform hover:bg-surface-container-highest">High Risk</button>
+</div>
+</section>
+<!-- Desktop Optimized Scan History Section -->
+<section class="mt-stack-lg">
+<h2 class="font-title-lg text-title-lg text-on-surface-variant mb-stack-md">Recent Insights</h2>
+<!-- Table Container (Visible on Desktop) -->
+<div class="hidden md:block overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-6 py-4 font-label-md text-label-md text-outline uppercase tracking-wider">Produce</th>
+<th class="px-6 py-4 font-label-md text-label-md text-outline uppercase tracking-wider">Date</th>
+<th class="px-6 py-4 font-label-md text-label-md text-outline uppercase tracking-wider">Result</th>
+<th class="px-6 py-4 font-label-md text-label-md text-outline uppercase tracking-wider">Confidence</th>
+<th class="px-6 py-4 font-label-md text-label-md text-outline uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Apple Row -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-base">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="A macro close-up photograph of a fresh, crisp organic red apple with tiny water droplets on its surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCd3AFt-YjQB1T4PXc-KXOZKQz4L0vzOy0xZ6B8k_nqmrQKQ1mgjwrox8sJ1-bddtZPeOiHTonDe4nkI3up9Opd0FiQ6bOstcWpqL-WcqOKONTrYQ2P0XuTsW2op5rUayiaEj5pZQgAfoeJGK2B1CI0Xh4VDs6AtH2aAa_cMVz8ei0byxZcc_3s6pvMLygZII5ic2FTtN6mmBz3Fuig5Ry-BQh6xFkTg3eEi-Dggeuzgui5WX-OD1YqiH3fvz_YAY6nC5dL7jkF0Knr"/>
+<span class="font-title-lg text-title-lg">Apple</span>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-md text-label-md">Organic</span>
+</td>
+<td class="px-6 py-4">
+<div class="w-full bg-surface-container-high rounded-full h-1.5 max-w-[100px] mb-1">
+<div class="bg-primary h-1.5 rounded-full" style="width: 87%"></div>
+</div>
+<span class="font-body-md text-on-surface-variant">87%</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">View Report</button>
+</td>
+</tr>
+<!-- Tomato Row -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-base">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="A professional studio photograph of a vibrant vine tomato against a clean white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIrP9I0XJU4_bat98Im6cvHyZCxMSA3KyBIWkSdElnoD4A0ayDgfzzWI_uqBP86mbvo1UBoikUPEIEoVpBANa-RC0EPbnaQtPEtwBphQwe1cFw-HINkw6VdnufrtOE0y_wiYNECJMY9CBZX4OxC051mJ-1Wa8bdICbg2rYtuYKtCj75J3dUNj6cqhx77PqAEsqFoKPCurgnZA7KEHh95hJe6WT2HDoN1XFmmPJzOrZpYZPfJpMrXt0dm7JbL4YIZksVT4z5DUW4pxd"/>
+<span class="font-title-lg text-title-lg">Tomato</span>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Oct 23, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-secondary-container/10 text-secondary font-label-md text-label-md">Possibly Treated</span>
+</td>
+<td class="px-6 py-4">
+<div class="w-full bg-surface-container-high rounded-full h-1.5 max-w-[100px] mb-1">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 65%"></div>
+</div>
+<span class="font-body-md text-on-surface-variant">65%</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="px-4 py-2 bg-secondary text-on-secondary font-label-md text-label-md rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">View Report</button>
+</td>
+</tr>
+<!-- Spinach Row -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-base">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="A high-resolution image of fresh spinach leaves spread on a clinical white surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZefZUlTKfplVyPFW7rEctPxsmMnzScN84K9GoGxY5p6J0GNqbDxmUDZ-_rLoGP6ULJHH4pMG2ph_CzU-v4omwOBZt9HoOpjRIJXmlvboOXpth7t-G5AXlcKRabsGrGy9sVwLj_Vcmf1klaHJzihvv9Hh9HoCa3Quhn3uLQZgcE48VlhJPoxv0zOi7vvqZmZ-PH_EmD5wycBGm3qH1B-GTba-3CYujojhzKmgBRLd0g1KNYwsdI7a2iMq9-ZegPsxYNxPG3k1EFfJC"/>
+<span class="font-title-lg text-title-lg">Spinach</span>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Oct 22, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-tertiary/10 text-tertiary font-label-md text-label-md">High Risk</span>
+</td>
+<td class="px-6 py-4">
+<div class="w-full bg-surface-container-high rounded-full h-1.5 max-w-[100px] mb-1">
+<div class="bg-tertiary h-1.5 rounded-full" style="width: 92%"></div>
+</div>
+<span class="font-body-md text-on-surface-variant">92%</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="px-4 py-2 bg-tertiary text-on-tertiary font-label-md text-label-md rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">View Report</button>
+</td>
+</tr>
+<!-- Banana Row -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-base">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="A minimalist and bright product shot of an organic yellow banana on a white surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgqsRI0QC7CYy7LPyIRwV9U5aeIR6IXcFiZkeLSbDnjwJtkqI9TK5cBKceosmqAsrp91mhgznAx33yRU9eyv3NRDviUCzz3QOn-WSHf9D8Irf6nK9OndjjRF6LlIPpfrbzuB6OK1QIOh9xClw-CGPiw-iuvQkN_PXo8Jt0xgcO3QYP6QQgCYrEFPApDFyGAj3ud5oGdzSQbH4lq_2pKQt8CdSsED194_CrWBqlFoPf4eh-5cVG58J3Et0ZkQjQWOSi5BvJ-ZNINZir"/>
+<span class="font-title-lg text-title-lg">Banana</span>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Oct 21, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-md text-label-md">Organic</span>
+</td>
+<td class="px-6 py-4">
+<div class="w-full bg-surface-container-high rounded-full h-1.5 max-w-[100px] mb-1">
+<div class="bg-primary h-1.5 rounded-full" style="width: 95%"></div>
+</div>
+<span class="font-body-md text-on-surface-variant">95%</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">View Report</button>
+</td>
+</tr>
+<!-- Grapes Row -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-base">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="A clean, clinical image of a cluster of purple organic grapes resting on a sterile white lab-style surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANQJlcgWUDw1NX-v6-DEFQghmTi6iQXH7qyrbcEWW_ewV0JprvBD6Ti3Kw0MFxEwYMlK_aqJQatE9W0c5qSEc-rJee2Tph5ZBJ01ghXSmX_raHeh30DAV1-gdrZa6Z7mR4KrRPZW4Cry4Vc5Us_r5EPVCtuDnwg74e1qpDzsu8Jl9h-KhhhzgNOAeQI6SdLFSJh636zfYZ8DE_Nq839vfrYpmlZYKaUTmsvLQnX58Nq4OuVIhLya9s_JUNb3PG1_Fwfdd2ThxCOc-M"/>
+<span class="font-title-lg text-title-lg">Grapes</span>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-on-surface-variant">Oct 20, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-md text-label-md">Organic</span>
+</td>
+<td class="px-6 py-4">
+<div class="w-full bg-surface-container-high rounded-full h-1.5 max-w-[100px] mb-1">
+<div class="bg-primary h-1.5 rounded-full" style="width: 88%"></div>
+</div>
+<span class="font-body-md text-on-surface-variant">88%</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">View Report</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Grid List (Fallback/Mobile View, remains as Grid for better layout on smaller desktop screens if needed) -->
+<div class="md:hidden space-y-gutter">
+<!-- Card: Apple -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-[0px_4px_12px_rgba(0,0,0,0.04)] hover:border-primary transition-all group">
+<div class="h-1 bg-primary"></div>
+<div class="p-4 flex gap-gutter">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A macro close-up photograph of a fresh, crisp organic red apple with tiny water droplets on its surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCd3AFt-YjQB1T4PXc-KXOZKQz4L0vzOy0xZ6B8k_nqmrQKQ1mgjwrox8sJ1-bddtZPeOiHTonDe4nkI3up9Opd0FiQ6bOstcWpqL-WcqOKONTrYQ2P0XuTsW2op5rUayiaEj5pZQgAfoeJGK2B1CI0Xh4VDs6AtH2aAa_cMVz8ei0byxZcc_3s6pvMLygZII5ic2FTtN6mmBz3Fuig5Ry-BQh6xFkTg3eEi-Dggeuzgui5WX-OD1YqiH3fvz_YAY6nC5dL7jkF0Knr"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-title-lg text-title-lg">Apple</h3>
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-label-md text-label-md">Organic</span>
+</div>
+<p class="font-body-md text-on-surface-variant mt-1">Confidence Score: 87%</p>
+<p class="text-xs text-outline mt-1">Oct 24, 2023</p>
+</div>
+<button class="mt-base w-full py-2 border border-primary text-primary font-label-md text-label-md rounded-lg group-hover:bg-primary group-hover:text-on-primary transition-colors">View Report</button>
+</div>
+</div>
+</div>
+<!-- Card: Tomato -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-[0px_4px_12px_rgba(0,0,0,0.04)] hover:border-secondary transition-all group">
+<div class="h-1 bg-secondary-container"></div>
+<div class="p-4 flex gap-gutter">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A professional studio photograph of a vibrant vine tomato against a clean white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIrP9I0XJU4_bat98Im6cvHyZCxMSA3KyBIWkSdElnoD4A0ayDgfzzWI_uqBP86mbvo1UBoikUPEIEoVpBANa-RC0EPbnaQtPEtwBphQwe1cFw-HINkw6VdnufrtOE0y_wiYNECJMY9CBZX4OxC051mJ-1Wa8bdICbg2rYtuYKtCj75J3dUNj6cqhx77PqAEsqFoKPCurgnZA7KEHh95hJe6WT2HDoN1XFmmPJzOrZpYZPfJpMrXt0dm7JbL4YIZksVT4z5DUW4pxd"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-title-lg text-title-lg">Tomato</h3>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/10 text-secondary font-label-md text-label-md">Possibly Treated</span>
+</div>
+<p class="font-body-md text-on-surface-variant mt-1">Confidence Score: 65%</p>
+<p class="text-xs text-outline mt-1">Oct 23, 2023</p>
+</div>
+<button class="mt-base w-full py-2 border border-secondary text-secondary font-label-md text-label-md rounded-lg group-hover:bg-secondary group-hover:text-on-secondary transition-colors">View Report</button>
+</div>
+</div>
+</div>
+<!-- Card: Spinach -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-[0px_4px_12px_rgba(0,0,0,0.04)] hover:border-tertiary transition-all group">
+<div class="h-1 bg-tertiary"></div>
+<div class="p-4 flex gap-gutter">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A high-resolution image of fresh spinach leaves spread on a clinical white surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZefZUlTKfplVyPFW7rEctPxsmMnzScN84K9GoGxY5p6J0GNqbDxmUDZ-_rLoGP6ULJHH4pMG2ph_CzU-v4omwOBZt9HoOpjRIJXmlvboOXpth7t-G5AXlcKRabsGrGy9sVwLj_Vcmf1klaHJzihvv9Hh9HoCa3Quhn3uLQZgcE48VlhJPoxv0zOi7vvqZmZ-PH_EmD5wycBGm3qH1B-GTba-3CYujojhzKmgBRLd0g1KNYwsdI7a2iMq9-ZegPsxYNxPG3k1EFfJC"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-title-lg text-title-lg">Spinach</h3>
+<span class="px-2 py-0.5 rounded-full bg-tertiary/10 text-tertiary font-label-md text-label-md">High Risk</span>
+</div>
+<p class="font-body-md text-on-surface-variant mt-1">Confidence Score: 92%</p>
+<p class="text-xs text-outline mt-1">Oct 22, 2023</p>
+</div>
+<button class="mt-base w-full py-2 border border-tertiary text-tertiary font-label-md text-label-md rounded-lg group-hover:bg-tertiary group-hover:text-on-tertiary transition-colors">View Report</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant dark:border-outline shadow-[0px_-4px_12px_rgba(0,0,0,0.04)] rounded-t-xl md:justify-center md:gap-12">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant active:scale-95 transition-transform duration-150 hover:bg-surface-container-highest/50 dark:hover:bg-inverse-surface/50 px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant active:scale-95 transition-transform duration-150 hover:bg-surface-container-highest/50 dark:hover:bg-inverse-surface/50 px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="barcode_scanner">barcode_scanner</span>
+<span class="font-label-md text-label-md mt-1">Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed bg-primary-container/10 rounded-full active:scale-95 transition-transform duration-150 px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="history" data-weight="fill">history</span>
+<span class="font-label-md text-label-md mt-1">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant active:scale-95 transition-transform duration-150 hover:bg-surface-container-highest/50 dark:hover:bg-inverse-surface/50 px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

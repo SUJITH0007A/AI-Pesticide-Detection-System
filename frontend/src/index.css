@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --background: #f8f9fa;
+  --surface: #ffffff;
+  --surface-soft: #f3f4f5;
+  --surface-muted: #e7e8e9;
+  --text-primary: #191c1d;
+  --text-secondary: #3d4943;
+  --primary: #00694c;
+  --primary-hover: #005b41;
+  --primary-soft: #008560;
+  --secondary: #885200;
+  --secondary-soft: #fdad4e;
+  --danger: #af262a;
+  --danger-soft: #d23f40;
+  --border: #e1e3e4;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--text-primary);
+}
+
+.app-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.2rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: var(--primary-hover);
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--surface-soft);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+}
+
+.badge-success {
+  background: rgba(0, 105, 76, 0.1);
+  color: var(--primary);
+}
+
+.badge-warning {
+  background: rgba(136, 82, 0, 0.12);
+  color: var(--secondary);
+}
+
+.badge-danger {
+  background: rgba(175, 38, 42, 0.12);
+  color: var(--danger);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.28s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  background: var(--surface);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.upload-area:hover,
+.upload-area.drag-active {
+  border-color: var(--primary-soft);
+}
+
+.image-preview {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}

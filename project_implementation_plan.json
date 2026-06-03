@@ -1,0 +1,87 @@
+{
+    "project_name": "FreshScan",
+    "description": "AI-Powered Pesticide & Quality Detection System",
+    "document_type": "Project Implementation Plan",
+    "version": "1.2.0",
+    "status": "Production-Ready / Verified",
+    "architecture": {
+        "frontend": {
+            "framework": "Vite + React SPA (React 19, React Router 7)",
+            "styling": "Vanilla CSS + Tailwind CSS (v3/v4 hybrid core)",
+            "key_features": [
+                "Bento grid dashboard with local/cloud history visualization",
+                "Dynamic progress-monitored upload pipeline dashboard",
+                "A4 print-optimized diagnostic PDF reports (using robust html2canvas tables)",
+                "Secure auth pages (Login/Register) with offline demo mode backup"
+            ]
+        },
+        "backend": {
+            "framework": "Flask REST API (Python 3)",
+            "services": [
+                "CORS-enabled prediction routes",
+                "TensorFlow model architecture compiler",
+                "Advanced 4-step image preprocessing pipeline"
+            ]
+        },
+        "ml_pipeline": {
+            "model_base": "MobileNetV2 (Pre-trained on ImageNet)",
+            "classification_head": "GlobalAveragePooling2D + Dense(256, ReLU) + Dropout(0.5) + Dense(3, Softmax)",
+            "categories": [
+                "Organic / Naturally Grown",
+                "Possibly Chemically Treated",
+                "High Pesticide Treatment Probability"
+            ],
+            "preprocessing_steps": [
+                "Image Downscaling: Lancaster resizing to 224x224",
+                "Noise Reduction: OpenCV fastNlMeansDenoisingColored (10, 10, 7, 21)",
+                "Background Removal: rembg ONNX-runtime produce isolation",
+                "Pixel Normalization: Scaling RGB vectors to [0, 1]"
+            ]
+        },
+        "database": {
+            "provider": "Supabase Cloud Database",
+            "table_name": "predictions",
+            "security": "Row Level Security (RLS) active (user isolation policies)"
+        }
+    },
+    "verification_plan": {
+        "automated_tests": [
+            "Pipeline Test: test_pipeline.py (validates rembg and cv2 execution and tensor sizing)",
+            "API Test: test_app.py (validates Flask endpoint routing, payload parsing, and response status)"
+        ],
+        "manual_verification": [
+            "Vite client bundling validation via static HTML/CSS compilation",
+            "Tabular report layout rendering test for PDF printing alignment"
+        ]
+    },
+    "completed_milestones": [
+        {
+            "milestone": "MobileNetV2 CNN Architecture Model Definition",
+            "status": "COMPLETED"
+        },
+        {
+            "milestone": "OpenCV Noise Reduction Integration",
+            "status": "COMPLETED"
+        },
+        {
+            "milestone": "Rembg Background Removal Pipeline",
+            "status": "COMPLETED"
+        },
+        {
+            "milestone": "Offline Demo mode state management fallback",
+            "status": "COMPLETED"
+        },
+        {
+            "milestone": "A4 Portrait Print PDF Generation",
+            "status": "COMPLETED"
+        },
+        {
+            "milestone": "Graceful API content-type validation",
+            "status": "COMPLETED"
+        },
+        {
+            "milestone": "Verification Tests Implementation",
+            "status": "COMPLETED"
+        }
+    ]
+}

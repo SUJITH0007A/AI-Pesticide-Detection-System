@@ -1,0 +1,94 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { supabase, isSupabaseConfigured } from './supabaseClient';
+
+// Pages
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import Upload from './pages/Upload';
+import Result from './pages/Result';
+import Report from './pages/Report';
+import History from './pages/History';
+import Profile from './pages/Profile';
+import Layout from './components/Layout';
+
+function App() {
+  const initialSession = (() => {
+    const localSessionStr = localStorage.getItem('fs_local_session');
+    if (!localSessionStr) return null;
+    try {
+      return JSON.parse(localSessionStr);
+    } catch (e) {
+      console.error("Error parsing local session", e);
+      return null;
+    }
+  })();
+  const [session, setSession] = useState(initialSession);
+  const [loading, setLoading] = useState(() => (initialSession || !isSupabaseConfigured ? false : true));
+
+  useEffect(() => {
+    if (session || !isSupabaseConfigured) {
+      return;
+    }
+
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        if (session) {
+          setSession(session);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.warn("Supabase auth session fetch failed, falling back to offline check", err);
+        setLoading(false);
+      });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        setSession(session);
+      }
+    });
+
+    return () => {
+      if (subscription) subscription.unsubscribe();
+    };
+  }, [session]);
+
+  if (loading) {
+    return <div className="flex items-center justify-center bg-background min-h-screen text-on-surface font-title-lg">Loading...</div>;
+  }
+
+  return (
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route 
+          path="/login" 
+          element={!session ? <Login /> : <Navigate to="/dashboard" />} 
+        />
+        <Route 
+          path="/register" 
+          element={!session ? <Register /> : <Navigate to="/dashboard" />} 
+        />
+
+        {/* Protected Routes Wrapped in Layout */}
+        <Route element={session ? <Layout session={session} /> : <Navigate to="/login" />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/result" element={<Result />} />
+          <Route path="/report" element={<Report />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/profile" element={<Profile session={session} />} />
+        </Route>
+
+        {/* Default Route */}
+        <Route path="*" element={<Navigate to={session ? "/dashboard" : "/login"} />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

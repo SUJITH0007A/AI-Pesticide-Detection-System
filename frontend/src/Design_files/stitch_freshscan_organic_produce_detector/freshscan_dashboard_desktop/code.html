@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>FreshScan - Know what's on your plate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#f0f1f2",
+                      "on-background": "#191c1d",
+                      "on-tertiary-container": "#fffbff",
+                      "on-surface-variant": "#3d4943",
+                      "inverse-primary": "#68dbae",
+                      "secondary-fixed-dim": "#ffb869",
+                      "secondary": "#885200",
+                      "surface-container-highest": "#e1e3e4",
+                      "primary": "#00694c",
+                      "surface-container-high": "#e7e8e9",
+                      "on-primary-container": "#f5fff7",
+                      "outline-variant": "#bccac1",
+                      "secondary-fixed": "#ffdcbb",
+                      "on-tertiary-fixed-variant": "#900a18",
+                      "on-secondary-container": "#704200",
+                      "surface-variant": "#e1e3e4",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#2b1700",
+                      "surface": "#f8f9fa",
+                      "primary-fixed": "#86f8c9",
+                      "on-primary-fixed": "#002115",
+                      "tertiary-fixed": "#ffdad7",
+                      "on-secondary-fixed-variant": "#673d00",
+                      "secondary-container": "#fdad4e",
+                      "on-error-container": "#93000a",
+                      "on-primary-fixed-variant": "#00513a",
+                      "tertiary": "#af262a",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f3f4f5",
+                      "surface-dim": "#d9dadb",
+                      "primary-fixed-dim": "#68dbae",
+                      "on-primary": "#ffffff",
+                      "outline": "#6d7a73",
+                      "primary-container": "#008560",
+                      "error": "#ba1a1a",
+                      "on-error": "#ffffff",
+                      "surface-container": "#edeeef",
+                      "tertiary-container": "#d23f40",
+                      "surface-bright": "#f8f9fa",
+                      "on-surface": "#191c1d",
+                      "on-tertiary-fixed": "#410004",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-surface": "#2e3132",
+                      "background": "#f8f9fa",
+                      "surface-tint": "#006c4e",
+                      "tertiary-fixed-dim": "#ffb3ae"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "4px",
+                      "base": "8px",
+                      "container-margin": "16px",
+                      "gutter": "12px",
+                      "stack-lg": "24px",
+                      "stack-md": "12px"
+              },
+              "fontFamily": {
+                      "title-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"]
+              },
+              "fontSize": {
+                      "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                      "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        @media (min-width: 1024px) {
+            .sidebar-nav {
+                width: 280px;
+                height: 100vh;
+            }
+            .main-content {
+                margin-left: 280px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- Desktop Sidebar / Mobile TopBar -->
+<header class="fixed top-0 left-0 h-14 lg:h-screen w-full lg:w-72 bg-surface dark:bg-on-background border-b lg:border-b-0 lg:border-r border-outline-variant dark:border-outline shadow-sm z-50 flex lg:flex-col items-center justify-between px-container-margin lg:px-6 lg:py-8">
+<div class="flex lg:flex-col items-center lg:items-start gap-2 lg:gap-8 w-full">
+<!-- Logo -->
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center rounded-lg bg-primary-container text-on-primary-container">
+<span class="material-symbols-outlined text-[20px] lg:text-[24px]">biotech</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">FreshScan</span>
+</div>
+<!-- Desktop Navigation -->
+<nav class="hidden lg:flex flex-col w-full gap-2">
+<a class="flex items-center gap-4 text-primary bg-primary-container/10 rounded-xl px-4 py-3 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-title-lg text-title-lg">Home</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-low rounded-xl px-4 py-3 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">barcode_scanner</span>
+<span class="font-title-lg text-title-lg">Scan</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-low rounded-xl px-4 py-3 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-title-lg text-title-lg">History</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-low rounded-xl px-4 py-3 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-title-lg text-title-lg">Profile</span>
+</a>
+</nav>
+</div>
+<!-- TopBar Actions (Mobile) / Bottom Actions (Desktop) -->
+<div class="flex lg:flex-col items-center gap-4 lg:w-full">
+<button class="material-symbols-outlined text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-inverse-surface p-2 rounded-full transition-colors duration-200 lg:w-full lg:flex lg:items-center lg:gap-4 lg:px-4">
+<span class="material-symbols-outlined">notifications</span>
+<span class="hidden lg:inline font-body-lg">Notifications</span>
+</button>
+<div class="flex items-center gap-3 lg:w-full lg:px-2 lg:mt-4">
+<img alt="User Profile" class="w-8 h-8 lg:w-10 lg:h-10 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrDRG44EjCjZN-90ySa4JWBvOv940MHjtCUeMQsLNKAmvsMQG1FXuNkqbQ2AKvyGv_-vQzKU6TDUm20HsybRuWDYpbn69SyQGr4lTGqiKjZ8uqa-BbI1A_iGyMTTtIxFNwA0AV1tsthQ96-c0uVDrY9QFNQM4aG-AFOOT_HBeCYKY6cyZPaRSbHd4mpBEuucIg55P-qCdiewl_GywvJpLZmIiS8zIry1oYgivGK1SgGimM_BgDJnb9l946Q3vlYry7OhKnJKQFfoDb"/>
+<div class="hidden lg:flex flex-col">
+<span class="font-title-lg text-[14px]">Alex Johnson</span>
+<span class="text-on-surface-variant text-[12px]">Pro Plan</span>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-20 lg:pt-8 lg:ml-72 px-container-margin lg:px-12 max-w-[1400px] mx-auto pb-24 lg:pb-12">
+<!-- Main Content Layout Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+<!-- Left Column: Hero & Stats -->
+<div class="xl:col-span-7 flex flex-col gap-8">
+<!-- Hero Section -->
+<section>
+<div class="relative overflow-hidden rounded-2xl bg-primary-container p-8 lg:p-10 text-on-primary-container shadow-sm border border-[#E9ECEF]">
+<div class="relative z-10 lg:max-w-md">
+<h1 class="font-headline-lg text-[32px] lg:text-[40px] leading-tight mb-4">Know what's on your plate</h1>
+<p class="font-body-lg text-body-lg opacity-90 mb-8">Instantly detect pesticides and organic quality with AI-driven visual analysis.</p>
+<button class="bg-primary text-on-primary font-title-lg text-title-lg px-8 py-4 rounded-xl flex items-center justify-center gap-3 w-full lg:w-fit shadow-lg active:scale-95 transition-all hover:bg-primary/90">
+<span class="material-symbols-outlined" data-weight="fill">barcode_scanner</span>
+                            Scan a Fruit or Vegetable
+                        </button>
+</div>
+<!-- Abstract decorative element -->
+<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-primary/20 rounded-full blur-3xl"></div>
+</div>
+</section>
+<!-- Dashboard Summary Grid -->
+<section>
+<h2 class="font-title-lg text-title-lg mb-6 flex items-center justify-between">
+                    Dashboard Summary
+                    <span class="font-label-md text-label-md text-primary font-semibold">Updated Today</span>
+</h2>
+<div class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-2 gap-gutter">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-[#E9ECEF] flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant">Total Scans</span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-extrabold text-on-background">124</span>
+<span class="text-primary text-sm font-bold">↑ 12%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-[#E9ECEF] flex flex-col gap-2 border-t-4 border-primary">
+<span class="font-label-md text-label-md text-on-surface-variant">Organic Items</span>
+<span class="text-3xl font-extrabold text-primary">86</span>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-[#E9ECEF] flex flex-col gap-2 border-t-4 border-secondary-container">
+<span class="font-label-md text-label-md text-on-surface-variant">Treated Items</span>
+<span class="text-3xl font-extrabold text-secondary">38</span>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-[#E9ECEF] flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant">Avg. Confidence</span>
+<span class="text-3xl font-extrabold text-on-background">92%</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Recent Scans -->
+<div class="xl:col-span-5">
+<section>
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-title-lg text-title-lg">Recent Scans</h2>
+<button class="text-primary font-label-md text-label-md uppercase tracking-wider font-bold hover:underline">View History</button>
+</div>
+<div class="space-y-4">
+<!-- Scan Card 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-[#E9ECEF] border-l-4 border-primary shadow-sm flex items-center gap-4 transition-all hover:shadow-md cursor-pointer">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrhGCIlWVFwoPHgKsmMe2WIBtj5SBHmFynukISRkfYR5jV7s4IeR5mmo6RHqD9Rk0LYd1iU-1G5eX41x5oKZB3hVtJZ2t9EoBnGQGsh8vtki9hZZnxsVH_qQUvCcbsIJC0sPCTRAdbYHk8DC26o-dEKLsv9bwEHSzoFvwEtn1yXRxK-ua7Bj6teoOmvN7spUZT6ssK-3K1dK_szU-5EEapH_KFIKr1k6ldYiM0GsC_v5OLkMa2gcJoxCJWC8nhilo2ob5_ewWNUCX6"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="font-title-lg text-title-lg">Gala Apple</h3>
+<span class="font-label-md text-[11px] text-on-surface-variant">2h ago</span>
+</div>
+<div class="flex items-center gap-3 mt-1">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full font-label-md text-[11px] font-bold">Organic</span>
+<span class="text-on-surface-variant font-label-md text-[12px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span> 98%
+                                </span>
+</div>
+</div>
+</div>
+<!-- Scan Card 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-[#E9ECEF] border-l-4 border-secondary-container shadow-sm flex items-center gap-4 transition-all hover:shadow-md cursor-pointer">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1NYlUjU1BPnGdcwm-p3yuG96BuBeOVqZ7jmPzood1fvZ_0VUitBsPz-mHxrNwiwqwg6N0voXABBqN5n-L2C05jnDLBwtu59YPoDjt0kHMkekdXHzmiQzIQLxTPwb8P20SpCZgz0fM_8laCoeJGdnZy9UJ2vTZohMUd6FfHtTWrmkgI40LPEDGvjMe3ZakGEc6ft8v2lW9w5IKXZ9nMN5F4oBo5REMv2dkeO7PTiumroyVdhoi6QDy_77CwufftYDPt_qloPkI-5NM"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="font-title-lg text-title-lg">Cherry Tomato</h3>
+<span class="font-label-md text-[11px] text-on-surface-variant">5h ago</span>
+</div>
+<div class="flex items-center gap-3 mt-1">
+<span class="bg-secondary-container/10 text-secondary-container px-3 py-1 rounded-full font-label-md text-[11px] font-bold">Possibly Treated</span>
+<span class="text-on-surface-variant font-label-md text-[12px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span> 84%
+                                </span>
+</div>
+</div>
+</div>
+<!-- Scan Card 3 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-[#E9ECEF] border-l-4 border-tertiary shadow-sm flex items-center gap-4 transition-all hover:shadow-md cursor-pointer">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAZb1aURbVcJNEau8vTqzVccWj82a_AccgSnbdNfU2ZjnkvqALgOvTOpm1QWMZ6sJugBU2te5S1bZOCULFoxh0gOsxaorFyjpQJRjXTFyiiIdEit5F4pJA2TMPabGgml3pSF01pFDaUh29aNvdycaWFxmyjPVfNYZeahLHlu0NsIXEc_SY8gxoEDr_Zz4Wo4o-9iq63g_eQWLD789RypcBtc_qCsp8y00SnERYbZvjOxLdiARqa5PxuXmPSzxSrwF_Kebo7QFPB18W"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="font-title-lg text-title-lg">Spinach Bunch</h3>
+<span class="font-label-md text-[11px] text-on-surface-variant">Yesterday</span>
+</div>
+<div class="flex items-center gap-3 mt-1">
+<span class="bg-tertiary-container/10 text-tertiary px-3 py-1 rounded-full font-label-md text-[11px] font-bold">High Risk</span>
+<span class="text-on-surface-variant font-label-md text-[12px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span> 91%
+                                </span>
+</div>
+</div>
+</div>
+<!-- Scan Card 4 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-[#E9ECEF] border-l-4 border-primary shadow-sm flex items-center gap-4 transition-all hover:shadow-md cursor-pointer">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0f_eQpgLGEQ4e26lczthvNJhJHOrMP30rVe2lWQbbafWDkB-awxxdKFUCrJ-8RTWXdD77HJ4zJKJX3f9iXlIrqc1RCre4Lq1-k_yOjpfq6668zKVTlhkaCoDUNrEd3ufKrWVDF8-G1PVrx4Y64OSIEnvV1tnFnHvzTMP0ahuRUDRddKHI6bafepanfLC8lnyGIvrn7_KO_t0LRPLUIKxvodNCbjqAMoVpqXDNyAgKQk4OGPY2jTyNjztnvIy6B2dWZzLV1B59E3pe"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h3 class="font-title-lg text-title-lg">Cara Cara Orange</h3>
+<span class="font-label-md text-[11px] text-on-surface-variant">Oct 24</span>
+</div>
+<div class="flex items-center gap-3 mt-1">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full font-label-md text-[11px] font-bold">Organic</span>
+<span class="text-on-surface-variant font-label-md text-[12px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span> 95%
+                                </span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex lg:hidden justify-around items-center px-4 py-2 pb-safe bg-surface dark:bg-on-background border-t border-outline-variant dark:border-outline shadow-[0px_-4px_12px_rgba(0,0,0,0.04)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-primary bg-primary-container/10 rounded-full px-4 py-1 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md">home</span>
+<span class="font-label-md text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md">barcode_scanner</span>
+<span class="font-label-md text-[10px]">Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md">history</span>
+<span class="font-label-md text-[10px]">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md">person</span>
+<span class="font-label-md text-[10px]">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,7 @@
+Flask
+Flask-CORS
+Pillow
+tensorflow==2.13.0
+numpy
+opencv-python
+rembg
