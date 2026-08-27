@@ -74,11 +74,11 @@ export default function Profile({ session }) {
     try {
       await supabase.auth.signOut();
     } catch (e) {
-      console.warn("Error signing out from Supabase", e);
+      console.warn("Sign out notice:", e);
+    } finally {
+      localStorage.removeItem('fs_local_session');
+      window.location.href = '/login';
     }
-    localStorage.removeItem('fs_local_session');
-    navigate('/login');
-    window.location.reload();
   };
 
   const handleExport = async () => {

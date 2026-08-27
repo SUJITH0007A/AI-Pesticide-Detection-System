@@ -1,4 +1,5 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 
 const navItems = [
   { path: '/dashboard', label: 'Home', icon: 'home' },
@@ -12,6 +13,17 @@ export default function Layout({ session }) {
 
   const userEmail = session?.user?.email || 'User';
   const userName = userEmail.split('@')[0];
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.warn("Sign out notice:", e);
+    } finally {
+      localStorage.removeItem('fs_local_session');
+      window.location.href = '/login';
+    }
+  };
 
   return (
     <div className="bg-background text-on-background min-h-screen">
@@ -68,6 +80,14 @@ export default function Layout({ session }) {
               <span className="text-on-surface-variant text-[12px] truncate">{userEmail}</span>
             </div>
           </div>
+          <button 
+            onClick={handleLogout}
+            className="text-on-surface-variant hover:text-error hover:bg-error-container/10 p-2 rounded-xl transition-colors duration-200 lg:w-full lg:flex lg:items-center lg:gap-4 lg:px-4 text-left"
+            title="Log Out"
+          >
+            <span className="material-symbols-outlined">logout</span>
+            <span className="hidden lg:inline font-body-lg font-semibold">Log Out</span>
+          </button>
         </div>
       </header>
 
