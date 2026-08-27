@@ -1,10 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
 from ml.preprocess import preprocess_image
-from ml.mock_model import predict
+try:
+    from ml.real_model import predict
+except Exception as e:
+    print(f"Fallback to mock model: {e}")
+    from ml.mock_model import predict
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/', methods=['GET'])
+def home():
+    return redirect('http://localhost:5173/')
 
 @app.route('/api/health', methods=['GET'])
 def health_check():

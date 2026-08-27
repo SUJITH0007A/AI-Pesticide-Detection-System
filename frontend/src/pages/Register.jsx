@@ -24,19 +24,26 @@ export default function Register() {
         return;
       }
 
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
             full_name: name,
-          }
+          },
+          emailRedirectTo: `${window.location.origin}/dashboard`
         }
       });
 
       if (error) {
         throw error;
+      } else if (data && !data.session) {
+        // If email confirmation is enabled in Supabase, the session will be null.
+        // Alert the user and provide the option to run in offline demo mode.
+        setError('Registration successful! A verification link has been sent to your email. Please check your inbox. If you want to explore the application immediately without verifying your email, you can click "Use Local Demo Mode" below.');
+        setShowOfflineOption(true);
       } else {
+        localStorage.removeItem('fs_local_session');
         navigate('/dashboard');
       }
     } catch (err) {

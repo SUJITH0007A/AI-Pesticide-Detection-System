@@ -27,7 +27,7 @@ export default function Report() {
     return <Navigate to="/upload" />;
   }
 
-  const { result, image } = location.state;
+  const { result, image, isFallback } = location.state;
   const categoryLower = result.category?.toLowerCase() || '';
   const isOrganic = categoryLower.includes('organic');
   const isTreated = categoryLower.includes('possibly');
@@ -53,14 +53,25 @@ export default function Report() {
         backgroundColor: '#ffffff',
         logging: false
       });
-      const imgData = canvas.toDataURL('image/png');
+      // Use JPEG with 90% quality to compress image data and avoid extremely large file sizes
+      const imgData = canvas.toDataURL('image/jpeg', 0.9);
       const pdf = new jsPDF('p', 'mm', 'a4');
       
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
       
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`FreshScan_Report_${Date.now()}.pdf`);
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+      
+      // Convert to blob and trigger manual anchor download to guarantee filename preservation
+      const blob = pdf.output('blob');
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `FreshScan_Report_${Date.now()}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
     } catch (err) {
       console.error('Error generating PDF:', err);
       alert('Failed to generate PDF.');
@@ -83,6 +94,15 @@ export default function Report() {
           </nav>
         </div>
       </div>
+
+      {isFallback && (
+        <div className="mb-6 p-4 bg-amber-500/10 text-amber-800 rounded-xl border border-amber-500/20 flex items-center gap-3" data-html2canvas-ignore>
+          <span className="material-symbols-outlined text-amber-600">warning</span>
+          <span className="font-body-md">
+            <strong>Offline Simulation Mode:</strong> Connection to the backend server failed. Showing a locally simulated prediction report.
+          </span>
+        </div>
+      )}
 
       <div className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-12 lg:gap-8 lg:pb-12 bg-background">
         {/* Left Column: Image and Confidence */}

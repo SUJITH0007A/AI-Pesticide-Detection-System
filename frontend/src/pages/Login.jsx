@@ -31,6 +31,7 @@ export default function Login() {
       if (error) {
         throw error;
       } else {
+        localStorage.removeItem('fs_local_session');
         navigate('/dashboard');
       }
     } catch (err) {
@@ -40,7 +41,8 @@ export default function Login() {
         setError('Supabase connection failed. Would you like to run in Offline/Demo Mode?');
         setShowOfflineOption(true);
       } else {
-        setError(err.message || 'An error occurred during sign in.');
+        setError(`${err.message || 'An error occurred during sign in.'} You can still log in using Offline/Demo Mode.`);
+        setShowOfflineOption(true);
       }
     } finally {
       setLoading(false);

@@ -28,34 +28,46 @@ function App() {
   const [loading, setLoading] = useState(() => (initialSession || !isSupabaseConfigured ? false : true));
 
   useEffect(() => {
-    if (session || !isSupabaseConfigured) {
+    if (!isSupabaseConfigured) {
+      setLoading(false);
       return;
     }
 
-    supabase.auth.getSession()
-      .then(({ data: { session } }) => {
-        if (session) {
-          setSession(session);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.warn("Supabase auth session fetch failed, falling back to offline check", err);
-        setLoading(false);
-      });
+    // Get current session from Supabase
+    supabase.auth.getSession().then(({ data: { session: supaSession } }) => {
+      if (supaSession) {
+        setSession(supaSession);
+      }
+      setLoading(false);
+    }).catch((err) => {
+      console.warn("Supabase auth session fetch failed:", err);
+      setLoading(false);
+    });
 
+    // Listen for auth state changes (login, logout, token refresh)
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        setSession(session);
+    } = supabase.auth.onAuthStateChange((_event, supaSession) => {
+      if (supaSession) {
+        setSession(supaSession);
+      } else {
+        const localSessionStr = localStorage.getItem('fs_local_session');
+        if (localSessionStr) {
+          try {
+            setSession(JSON.parse(localSessionStr));
+          } catch {
+            setSession(null);
+          }
+        } else {
+          setSession(null);
+        }
       }
     });
 
     return () => {
       if (subscription) subscription.unsubscribe();
     };
-  }, [session]);
+  }, []);
 
   if (loading) {
     return <div className="flex items-center justify-center bg-background min-h-screen text-on-surface font-title-lg">Loading...</div>;
