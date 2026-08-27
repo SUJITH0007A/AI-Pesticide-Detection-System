@@ -308,38 +308,42 @@ export default function Report() {
         <div>
           {/* Header */}
           <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px' }}>
-            <tr>
-              <td style={{ verticalAlign: 'middle' }}>
-                <table style={{ borderCollapse: 'collapse' }}>
-                  <tr>
-                    <td style={{ paddingRight: '12px' }}>
-                      <div style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '10px',
-                        background: '#00694c',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#ffffff',
-                      }}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                        </svg>
-                      </div>
-                    </td>
-                    <td>
-                      <h1 style={{ margin: 0, fontSize: '22px', fontWeight: '800', color: '#00694c', letterSpacing: '-0.02em', lineHeight: 1.1 }}>FreshScan</h1>
-                      <p style={{ margin: 0, fontSize: '11px', color: '#6d7a73', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.05em' }}>AI Produce Analysis</p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-              <td style={{ textAlign: 'right', verticalAlign: 'middle' }}>
-                <h2 style={{ margin: 0, fontSize: '14px', fontWeight: '700', color: '#191c1d', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Diagnostic Report</h2>
-                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#6d7a73' }}>Report ID: <span style={{ fontFamily: 'monospace', fontWeight: '600' }}>FS-{Math.random().toString(36).substring(2, 8).toUpperCase()}</span></p>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td style={{ verticalAlign: 'middle' }}>
+                  <table style={{ borderCollapse: 'collapse' }}>
+                    <tbody>
+                      <tr>
+                        <td style={{ paddingRight: '12px' }}>
+                          <div style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '10px',
+                            background: '#00694c',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#ffffff',
+                          }}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                          </div>
+                        </td>
+                        <td>
+                          <h1 style={{ margin: 0, fontSize: '22px', fontWeight: '800', color: '#00694c', letterSpacing: '-0.02em', lineHeight: 1.1 }}>FreshScan</h1>
+                          <p style={{ margin: 0, fontSize: '11px', color: '#6d7a73', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.05em' }}>AI Produce Analysis</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style={{ textAlign: 'right', verticalAlign: 'middle' }}>
+                  <h2 style={{ margin: 0, fontSize: '14px', fontWeight: '700', color: '#191c1d', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Diagnostic Report</h2>
+                  <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#6d7a73' }}>Report ID: <span style={{ fontFamily: 'monospace', fontWeight: '600' }}>FS-{Math.random().toString(36).substring(2, 8).toUpperCase()}</span></p>
+                </td>
+              </tr>
+            </tbody>
           </table>
 
           {/* Elegant Divider */}
@@ -347,123 +351,131 @@ export default function Report() {
 
           {/* Meta Info Section (Tabular) */}
           <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: '#f8f9fa', borderRadius: '12px', marginBottom: '32px', border: '1px solid #e1e3e4' }}>
-            <tr>
-              <td style={{ width: '33.33%', padding: '16px 24px', verticalAlign: 'top' }}>
-                <p style={{ margin: 0, fontSize: '10px', color: '#6d7a73', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Analyst Name</p>
-                <p style={{ margin: '4px 0 0 0', fontSize: '13px', fontWeight: '600', color: '#191c1d' }}>{userName}</p>
-              </td>
-              <td style={{ width: '33.33%', padding: '16px 24px', verticalAlign: 'top', borderLeft: '1px solid #e1e3e4' }}>
-                <p style={{ margin: 0, fontSize: '10px', color: '#6d7a73', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Date of Scan</p>
-                <p style={{ margin: '4px 0 0 0', fontSize: '13px', fontWeight: '600', color: '#191c1d' }}>
-                  {result.created_at 
-                    ? new Date(result.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) 
-                    : new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-                  }
-                </p>
-              </td>
-              <td style={{ width: '33.33%', padding: '16px 24px', verticalAlign: 'top', borderLeft: '1px solid #e1e3e4' }}>
-                <p style={{ margin: 0, fontSize: '10px', color: '#6d7a73', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Model Version</p>
-                <p style={{ margin: '4px 0 0 0', fontSize: '13px', fontWeight: '600', color: '#00694c' }}>{result.model_used || 'MobileNetV2 (CNN)'}</p>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td style={{ width: '33.33%', padding: '16px 24px', verticalAlign: 'top' }}>
+                  <p style={{ margin: 0, fontSize: '10px', color: '#6d7a73', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Analyst Name</p>
+                  <p style={{ margin: '4px 0 0 0', fontSize: '13px', fontWeight: '600', color: '#191c1d' }}>{userName}</p>
+                </td>
+                <td style={{ width: '33.33%', padding: '16px 24px', verticalAlign: 'top', borderLeft: '1px solid #e1e3e4' }}>
+                  <p style={{ margin: 0, fontSize: '10px', color: '#6d7a73', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Date of Scan</p>
+                  <p style={{ margin: '4px 0 0 0', fontSize: '13px', fontWeight: '600', color: '#191c1d' }}>
+                    {result.created_at 
+                      ? new Date(result.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) 
+                      : new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+                    }
+                  </p>
+                </td>
+                <td style={{ width: '33.33%', padding: '16px 24px', verticalAlign: 'top', borderLeft: '1px solid #e1e3e4' }}>
+                  <p style={{ margin: 0, fontSize: '10px', color: '#6d7a73', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Model Version</p>
+                  <p style={{ margin: '4px 0 0 0', fontSize: '13px', fontWeight: '600', color: '#00694c' }}>{result.model_used || 'MobileNetV2 (CNN)'}</p>
+                </td>
+              </tr>
+            </tbody>
           </table>
 
           {/* Main Content Grid: Image & Circular Indicator (Tabular) */}
           <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '32px' }}>
-            <tr>
-              <td style={{ width: '380px', verticalAlign: 'top', paddingRight: '32px' }}>
-                {/* Left: Scanned Image */}
-                <h3 style={{ margin: '0 0 12px 0', fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', color: '#191c1d', letterSpacing: '0.05em' }}>Analyzed Produce Image</h3>
-                <div style={{ width: '380px', height: '260px', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e1e3e4', backgroundColor: '#f3f4f5' }}>
-                  {image ? (
-                    <img src={image} alt="Scan Result" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#bccac1' }}>No Image Scanned</div>
-                  )}
-                </div>
-              </td>
-              <td style={{ verticalAlign: 'top' }}>
-                {/* Right: Confidence Circle and Badge */}
-                <h3 style={{ margin: '0 0 12px 0', fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', color: '#191c1d', letterSpacing: '0.05em' }}>Scan Summary</h3>
-                <div style={{
-                  display: 'inline-block',
-                  padding: '8px 16px',
-                  borderRadius: '999px',
-                  fontWeight: '700',
-                  fontSize: '12px',
-                  letterSpacing: '0.02em',
-                  textTransform: 'uppercase',
-                  border: '1px solid',
-                  backgroundColor: isOrganic ? '#e6f4ea' : isTreated ? '#fef7e0' : '#fce8e6',
-                  color: isOrganic ? '#137333' : isTreated ? '#b06000' : '#c5221f',
-                  borderColor: isOrganic ? '#a3cfbb' : isTreated ? '#fbe5b8' : '#f5c2c1',
-                  marginBottom: '24px'
-                }}>
-                  {result.category}
-                </div>
+            <tbody>
+              <tr>
+                <td style={{ width: '380px', verticalAlign: 'top', paddingRight: '32px' }}>
+                  {/* Left: Scanned Image */}
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', color: '#191c1d', letterSpacing: '0.05em' }}>Analyzed Produce Image</h3>
+                  <div style={{ width: '380px', height: '260px', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e1e3e4', backgroundColor: '#f3f4f5' }}>
+                    {image ? (
+                      <img src={image} alt="Scan Result" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#bccac1' }}>No Image Scanned</div>
+                    )}
+                  </div>
+                </td>
+                <td style={{ verticalAlign: 'top' }}>
+                  {/* Right: Confidence Circle and Badge */}
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', color: '#191c1d', letterSpacing: '0.05em' }}>Scan Summary</h3>
+                  <div style={{
+                    display: 'inline-block',
+                    padding: '8px 16px',
+                    borderRadius: '999px',
+                    fontWeight: '700',
+                    fontSize: '12px',
+                    letterSpacing: '0.02em',
+                    textTransform: 'uppercase',
+                    border: '1px solid',
+                    backgroundColor: isOrganic ? '#e6f4ea' : isTreated ? '#fef7e0' : '#fce8e6',
+                    color: isOrganic ? '#137333' : isTreated ? '#b06000' : '#c5221f',
+                    borderColor: isOrganic ? '#a3cfbb' : isTreated ? '#fbe5b8' : '#f5c2c1',
+                    marginBottom: '24px'
+                  }}>
+                    {result.category}
+                  </div>
 
-                {/* Sub-table for Gauge and bars */}
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <tr>
-                    <td style={{ width: '110px', verticalAlign: 'middle', paddingRight: '20px' }}>
-                      {/* Circular Gauge */}
-                      <div style={{ position: 'relative', width: '100px', height: '100px' }}>
-                        <svg style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }} viewBox="0 0 36 36">
-                          <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#E9ECEF" strokeWidth="3.5"></path>
-                          <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke={isOrganic ? '#00694c' : isTreated ? '#fdad4e' : '#af262a'} strokeDasharray={`${confPct}, 100`} strokeLinecap="round" strokeWidth="3.5"></path>
-                        </svg>
-                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                          <span style={{ fontSize: '20px', fontWeight: '800', color: isOrganic ? '#00694c' : isTreated ? '#fdad4e' : '#af262a', lineHeight: 1 }}>{confPct}%</span>
-                          <span style={{ fontSize: '8px', fontWeight: '600', color: '#6d7a73', textTransform: 'uppercase', letterSpacing: '0.02em', marginTop: '2px' }}>Confidence</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td style={{ verticalAlign: 'middle' }}>
-                      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                        {/* Organic Row */}
-                        <tr>
-                          <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>Organic Match</td>
-                          <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', textAlign: 'right', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>{organicConf}%</td>
-                        </tr>
-                        <tr>
-                          <td colSpan="2" style={{ paddingBottom: '10px' }}>
-                            <div style={{ width: '100%', height: '8px', backgroundColor: '#e9ecef', borderRadius: '4px', overflow: 'hidden' }}>
-                              <div style={{ height: '100%', backgroundColor: '#00694c', width: `${organicConf}%` }}></div>
+                  {/* Sub-table for Gauge and bars */}
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <tbody>
+                      <tr>
+                        <td style={{ width: '110px', verticalAlign: 'middle', paddingRight: '20px' }}>
+                          {/* Circular Gauge */}
+                          <div style={{ position: 'relative', width: '100px', height: '100px' }}>
+                            <svg style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }} viewBox="0 0 36 36">
+                              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#E9ECEF" strokeWidth="3.5"></path>
+                              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke={isOrganic ? '#00694c' : isTreated ? '#fdad4e' : '#af262a'} strokeDasharray={`${confPct}, 100`} strokeLinecap="round" strokeWidth="3.5"></path>
+                            </svg>
+                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                              <span style={{ fontSize: '20px', fontWeight: '800', color: isOrganic ? '#00694c' : isTreated ? '#fdad4e' : '#af262a', lineHeight: 1 }}>{confPct}%</span>
+                              <span style={{ fontSize: '8px', fontWeight: '600', color: '#6d7a73', textTransform: 'uppercase', letterSpacing: '0.02em', marginTop: '2px' }}>Confidence</span>
                             </div>
-                          </td>
-                        </tr>
+                          </div>
+                        </td>
+                        <td style={{ verticalAlign: 'middle' }}>
+                          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                            <tbody>
+                              {/* Organic Row */}
+                              <tr>
+                                <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>Organic Match</td>
+                                <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', textAlign: 'right', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>{organicConf}%</td>
+                              </tr>
+                              <tr>
+                                <td colSpan="2" style={{ paddingBottom: '10px' }}>
+                                  <div style={{ width: '100%', height: '8px', backgroundColor: '#e9ecef', borderRadius: '4px', overflow: 'hidden' }}>
+                                    <div style={{ height: '100%', backgroundColor: '#00694c', width: `${organicConf}%` }}></div>
+                                  </div>
+                                </td>
+                              </tr>
 
-                        {/* Chemical Row */}
-                        <tr>
-                          <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>Chemical Match</td>
-                          <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', textAlign: 'right', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>{treatedConf}%</td>
-                        </tr>
-                        <tr>
-                          <td colSpan="2" style={{ paddingBottom: '10px' }}>
-                            <div style={{ width: '100%', height: '8px', backgroundColor: '#e9ecef', borderRadius: '4px', overflow: 'hidden' }}>
-                              <div style={{ height: '100%', backgroundColor: '#fdad4e', width: `${treatedConf}%` }}></div>
-                            </div>
-                          </td>
-                        </tr>
+                              {/* Chemical Row */}
+                              <tr>
+                                <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>Chemical Match</td>
+                                <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', textAlign: 'right', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>{treatedConf}%</td>
+                              </tr>
+                              <tr>
+                                <td colSpan="2" style={{ paddingBottom: '10px' }}>
+                                  <div style={{ width: '100%', height: '8px', backgroundColor: '#e9ecef', borderRadius: '4px', overflow: 'hidden' }}>
+                                    <div style={{ height: '100%', backgroundColor: '#fdad4e', width: `${treatedConf}%` }}></div>
+                                  </div>
+                                </td>
+                              </tr>
 
-                        {/* High Risk Row */}
-                        <tr>
-                          <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>High Risk Indicator</td>
-                          <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', textAlign: 'right', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>{riskConf}%</td>
-                        </tr>
-                        <tr>
-                          <td colSpan="2">
-                            <div style={{ width: '100%', height: '8px', backgroundColor: '#e9ecef', borderRadius: '4px', overflow: 'hidden' }}>
-                              <div style={{ height: '100%', backgroundColor: '#af262a', width: `${riskConf}%` }}></div>
-                            </div>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+                              {/* High Risk Row */}
+                              <tr>
+                                <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>High Risk Indicator</td>
+                                <td style={{ fontSize: '11px', fontWeight: '700', color: '#191c1d', textAlign: 'right', paddingBottom: '2px', fontFamily: "'Inter', sans-serif" }}>{riskConf}%</td>
+                              </tr>
+                              <tr>
+                                <td colSpan="2">
+                                  <div style={{ width: '100%', height: '8px', backgroundColor: '#e9ecef', borderRadius: '4px', overflow: 'hidden' }}>
+                                    <div style={{ height: '100%', backgroundColor: '#af262a', width: `${riskConf}%` }}></div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
           </table>
 
           {/* AI Narrative Section */}
