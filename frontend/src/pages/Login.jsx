@@ -61,8 +61,7 @@ export default function Login() {
       }
     };
     localStorage.setItem('fs_local_session', JSON.stringify(mockSession));
-    // Redirect using window.location to ensure App.jsx reads the new localStorage session
-    window.location.href = '/dashboard';
+    window.location.hash = '/dashboard';
   };
 
   return (

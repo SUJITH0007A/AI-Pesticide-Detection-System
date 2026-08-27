@@ -77,7 +77,7 @@ export default function Profile({ session }) {
       console.warn("Sign out notice:", e);
     } finally {
       localStorage.removeItem('fs_local_session');
-      window.location.href = '/login';
+      window.location.hash = '/login';
     }
   };
 
