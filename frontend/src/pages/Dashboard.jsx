@@ -14,49 +14,62 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function fetchData() {
       try {
         let currentSession = null;
-        try {
-          const { data: { session } } = await supabase.auth.getSession();
-          currentSession = session;
-        } catch (e) {
-          console.warn("Could not get Supabase session, checking local session...");
+        
+        // 1. Check local session first for ultra-fast render
+        const localSessionStr = localStorage.getItem('fs_local_session');
+        if (localSessionStr) {
+          try { currentSession = JSON.parse(localSessionStr); } catch (e) {}
         }
 
-        // Check if there is a local session saved
+        // 2. Fast timeout race for Supabase session if no local session found
         if (!currentSession) {
-          const localSessionStr = localStorage.getItem('fs_local_session');
-          if (localSessionStr) {
-            currentSession = JSON.parse(localSessionStr);
+          try {
+            const sessionPromise = supabase.auth.getSession();
+            const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve({ data: { session: null } }), 1000));
+            const res = await Promise.race([sessionPromise, timeoutPromise]);
+            currentSession = res?.data?.session || null;
+          } catch (e) {
+            console.warn("Supabase session fetch skipped or timed out:", e);
           }
         }
 
-        if (!currentSession) return;
+        // Default to a fallback local demo session if still null
+        if (!currentSession) {
+          currentSession = { user: { id: 'local-user-id', email: 'demo@freshscan.ai' } };
+        }
 
         let predictionsData = [];
-        const isLocalUser = currentSession.user?.id === 'local-user-id';
+        const isLocalUser = !currentSession.user?.id || currentSession.user?.id === 'local-user-id' || currentSession.user?.id.length !== 36;
 
         if (isLocalUser) {
-          // Immediately load from localStorage in demo mode
           const localData = localStorage.getItem('fs_local_predictions');
           predictionsData = localData ? JSON.parse(localData) : [];
         } else {
           try {
-            const { data, error } = await supabase
+            const queryPromise = supabase
               .from('predictions')
               .select('*')
               .eq('user_id', currentSession.user.id)
               .order('created_at', { ascending: false });
+            
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Supabase query timeout")), 1500));
+            const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
 
             if (error) throw error;
             predictionsData = data || [];
           } catch (err) {
-            console.warn("Failed to fetch predictions from Supabase. Falling back to local storage:", err);
+            console.warn("Supabase fetch failed or timed out. Using local storage:", err);
             const localData = localStorage.getItem('fs_local_predictions');
             predictionsData = localData ? JSON.parse(localData) : [];
           }
         }
+
+        if (!isMounted) return;
 
         // Calculate stats
         const total = predictionsData.length;
@@ -83,15 +96,17 @@ export default function Dashboard() {
           avgConfidence
         });
 
-        setRecentScans(predictionsData.slice(0, 4)); // Top 4 recent
+        setRecentScans(predictionsData.slice(0, 4));
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
 
     fetchData();
+
+    return () => { isMounted = false; };
   }, []);
 
   // Format date helper

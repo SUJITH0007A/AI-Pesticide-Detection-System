@@ -28,26 +28,35 @@ function App() {
   const [loading, setLoading] = useState(() => (initialSession || !isSupabaseConfigured ? false : true));
 
   useEffect(() => {
+    let isMounted = true;
+    const fallbackTimer = setTimeout(() => {
+      if (isMounted) setLoading(false);
+    }, 1000);
+
     if (!isSupabaseConfigured) {
       setLoading(false);
+      clearTimeout(fallbackTimer);
       return;
     }
 
     // Get current session from Supabase
     supabase.auth.getSession().then(({ data: { session: supaSession } }) => {
-      if (supaSession) {
+      if (isMounted && supaSession) {
         setSession(supaSession);
       }
-      setLoading(false);
+      if (isMounted) setLoading(false);
+      clearTimeout(fallbackTimer);
     }).catch((err) => {
       console.warn("Supabase auth session fetch failed:", err);
-      setLoading(false);
+      if (isMounted) setLoading(false);
+      clearTimeout(fallbackTimer);
     });
 
     // Listen for auth state changes (login, logout, token refresh)
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, supaSession) => {
+      if (!isMounted) return;
       if (supaSession) {
         setSession(supaSession);
       } else {
@@ -65,6 +74,8 @@ function App() {
     });
 
     return () => {
+      isMounted = false;
+      clearTimeout(fallbackTimer);
       if (subscription) subscription.unsubscribe();
     };
   }, []);
