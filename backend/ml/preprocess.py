@@ -1,21 +1,21 @@
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 import io
 
 def preprocess_image(image_bytes):
     """
     Preprocesses the uploaded image bytes for model prediction.
-    - Opens image bytes
+    - Opens image bytes and corrects EXIF orientation
     - Converts to RGB
     - Resizes to 224x224
     - Applies Noise Reduction (OpenCV fastNlMeansDenoisingColored)
-    - Applies Background Removal (rembg)
+    - Applies Background Removal (rembg if available)
     - Normalizes to [0, 1]
     - Expands dimensions to (1, 224, 224, 3)
     """
     try:
-        image = Image.open(io.BytesIO(image_bytes))
-        image = image.convert('RGB')
+        raw_image = Image.open(io.BytesIO(image_bytes))
+        image = ImageOps.exif_transpose(raw_image).convert('RGB')
         
         # Resize first to ensure noise reduction and background removal are extremely fast
         image = image.resize((224, 224), Image.Resampling.LANCZOS)

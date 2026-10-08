@@ -1,7 +1,9 @@
-import tensorflow as tf
-from tensorflow.keras.applications import MobileNetV2
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
-from tensorflow.keras.models import Model
+import os
+os.environ["KERAS_BACKEND"] = "torch"
+import keras
+from keras.applications import MobileNetV2
+from keras.layers import Dense, GlobalAveragePooling2D, Dropout
+from keras import Model
 
 def create_pesticide_detection_model(input_shape=(224, 224, 3), num_classes=3):
     """
@@ -40,7 +42,7 @@ def create_pesticide_detection_model(input_shape=(224, 224, 3), num_classes=3):
     model = Model(inputs=base_model.input, outputs=predictions)
     
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+        optimizer=keras.optimizers.Adam(learning_rate=0.001),
         loss='sparse_categorical_crossentropy',
         metrics=['accuracy']
     )
@@ -52,3 +54,4 @@ if __name__ == "__main__":
     model = create_pesticide_detection_model()
     model.summary()
     print("Model architecture built successfully. Ready for dataset training.")
+

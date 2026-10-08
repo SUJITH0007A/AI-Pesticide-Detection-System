@@ -110,9 +110,9 @@ export default function Upload() {
         formData.append('image', file);
         const apiUrl = `${backendBaseUrl.replace(/\/$/, '')}/predict`;
 
-        // 3.5-second timeout controller for ultra-fast response
+        // 30-second timeout controller for ML inference & preprocessing
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3500);
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
 
         const flaskResponse = await fetch(apiUrl, {
           method: 'POST',
@@ -164,7 +164,7 @@ export default function Upload() {
 
       setPipelineStep(5); // Complete
 
-      const isLocalUser = currentSession.user?.id === 'local-user-id';
+      const isLocalUser = currentSession.user?.id === 'local-user-id' || !currentSession.user?.id || currentSession.user?.id.length !== 36;
       const newPrediction = {
         id: Math.random().toString(36).substring(2, 9),
         user_id: currentSession.user.id,

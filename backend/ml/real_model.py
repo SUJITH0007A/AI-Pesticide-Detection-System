@@ -34,20 +34,41 @@ def load_trained_model():
     if _model is not None:
         return _model
         
-    import keras
+    try:
+        import keras
+    except Exception as import_err:
+        print(f"[FreshScan ML] Warning: Could not import keras: {import_err}")
+        return None
     
-    # Check for .keras model file
     ml_dir = os.path.dirname(__file__)
     keras_file = os.path.join(ml_dir, "apple_mobilenetv2_final.keras")
-    root_file = os.path.abspath(os.path.join(ml_dir, "..", "..", "apple_mobilenetv2_final.keras"))
-    
+    root_keras = os.path.abspath(os.path.join(ml_dir, "..", "..", "apple_mobilenetv2_final.keras"))
+    zip_file = os.path.join(ml_dir, "apple_mobilenetv2_final.keras.zip")
+    root_zip = os.path.abspath(os.path.join(ml_dir, "..", "..", "apple_mobilenetv2_final.keras.zip"))
+
+    model_path = None
     if os.path.exists(keras_file):
         model_path = keras_file
-    elif os.path.exists(root_file):
-        model_path = root_file
+    elif os.path.exists(root_keras):
+        model_path = root_keras
     else:
-        model_path = os.path.join(ml_dir, "apple_mobilenetv2_final.keras.zip")
+        # Check zip archive to extract if needed
+        target_zip = zip_file if os.path.exists(zip_file) else (root_zip if os.path.exists(root_zip) else None)
+        if target_zip:
+            try:
+                import zipfile
+                print(f"[FreshScan ML] Extracting model archive from {target_zip}...")
+                with zipfile.ZipFile(target_zip, 'r') as zip_ref:
+                    zip_ref.extractall(ml_dir)
+                if os.path.exists(keras_file):
+                    model_path = keras_file
+            except Exception as zip_err:
+                print(f"[FreshScan ML] Failed to extract model zip: {zip_err}")
     
+    if not model_path or not os.path.exists(model_path):
+        print("[FreshScan ML] Warning: Model file (.keras) not found!")
+        return None
+
     try:
         print(f"[FreshScan ML] Loading trained CNN model from: {model_path}")
         _model = keras.models.load_model(model_path)
@@ -56,6 +77,18 @@ def load_trained_model():
     except Exception as e:
         print(f"[FreshScan ML] Warning: Could not load keras model: {e}")
         return None
+
+def warmup():
+    """Pre-loads model and performs dummy inference so first request is sub-second."""
+    try:
+        model = load_trained_model()
+        if model is not None:
+            dummy = np.zeros((1, 224, 224, 3), dtype=np.float32)
+            model.predict(dummy, verbose=0)
+            print("[FreshScan ML] Model pre-loading and warmup completed successfully!")
+    except Exception as e:
+        print(f"[FreshScan ML] Warmup notice: {e}")
+
 
 def predict(image_tensor):
     """
