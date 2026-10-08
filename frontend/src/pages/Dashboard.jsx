@@ -43,13 +43,12 @@ export default function Dashboard() {
           currentSession = { user: { id: 'local-user-id', email: 'demo@freshscan.ai' } };
         }
 
-        let predictionsData = [];
-        const isLocalUser = !currentSession.user?.id || currentSession.user?.id === 'local-user-id' || currentSession.user?.id.length !== 36;
+        // Always retrieve local storage predictions
+        const localData = localStorage.getItem('fs_local_predictions');
+        const localPredictions = localData ? JSON.parse(localData) : [];
 
-        if (isLocalUser) {
-          const localData = localStorage.getItem('fs_local_predictions');
-          predictionsData = localData ? JSON.parse(localData) : [];
-        } else {
+        let cloudPredictions = [];
+        if (currentSession.user?.id && currentSession.user.id !== 'local-user-id' && currentSession.user.id.length === 36) {
           try {
             const queryPromise = supabase
               .from('predictions')
@@ -57,17 +56,26 @@ export default function Dashboard() {
               .eq('user_id', currentSession.user.id)
               .order('created_at', { ascending: false });
             
-            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Supabase query timeout")), 1500));
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Supabase query timeout")), 1200));
             const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
 
-            if (error) throw error;
-            predictionsData = data || [];
+            if (!error && data) cloudPredictions = data;
           } catch (err) {
-            console.warn("Supabase fetch failed or timed out. Using local storage:", err);
-            const localData = localStorage.getItem('fs_local_predictions');
-            predictionsData = localData ? JSON.parse(localData) : [];
+            console.warn("Cloud predictions fetch notice:", err);
           }
         }
+
+        // Combine local and cloud predictions, avoiding duplicates
+        const combined = [...localPredictions];
+        cloudPredictions.forEach(cloudItem => {
+          if (!combined.some(localItem => localItem.created_at === cloudItem.created_at)) {
+            combined.push(cloudItem);
+          }
+        });
+
+        // Sort by date descending
+        combined.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        const predictionsData = combined;
 
         if (!isMounted) return;
 

@@ -174,10 +174,9 @@ export default function Upload() {
       setPipelineStep(5); // Complete
       await new Promise(resolve => setTimeout(resolve, 300));
 
-      const isLocalUser = currentSession.user?.id === 'local-user-id' || !currentSession.user?.id || currentSession.user?.id.length !== 36;
       const newPrediction = {
-        id: Math.random().toString(36).substring(2, 9),
-        user_id: currentSession.user.id,
+        id: crypto.randomUUID ? crypto.randomUUID() : (Math.random().toString(36).substring(2, 15)),
+        user_id: currentSession.user?.id || 'local-user-id',
         category: result.category,
         confidence: result.confidence,
         model_used: result.model_used,
@@ -185,25 +184,20 @@ export default function Upload() {
         created_at: new Date().toISOString()
       };
 
-      if (isLocalUser) {
-        // Save to localStorage immediately
-        const localData = localStorage.getItem('fs_local_predictions');
-        const predictions = localData ? JSON.parse(localData) : [];
-        predictions.unshift(newPrediction);
-        localStorage.setItem('fs_local_predictions', JSON.stringify(predictions));
-      } else {
-        try {
-          const { error: dbError } = await supabase
-            .from('predictions')
-            .insert([newPrediction]);
+      // Always save to localStorage immediately so Recent Scans & Dashboard update instantly
+      const localData = localStorage.getItem('fs_local_predictions');
+      const predictions = localData ? JSON.parse(localData) : [];
+      predictions.unshift(newPrediction);
+      localStorage.setItem('fs_local_predictions', JSON.stringify(predictions));
 
-          if (dbError) throw dbError;
+      // Also attempt Cloud database insert if Supabase user
+      if (currentSession.user?.id && currentSession.user.id !== 'local-user-id' && currentSession.user.id.length === 36) {
+        try {
+          // Omit local string id so PostgreSQL generates a valid UUID primary key
+          const { id, ...dbPayload } = newPrediction;
+          await supabase.from('predictions').insert([dbPayload]);
         } catch (dbErr) {
-          console.warn("Database insert failed, saving to local storage instead:", dbErr);
-          const localData = localStorage.getItem('fs_local_predictions');
-          const predictions = localData ? JSON.parse(localData) : [];
-          predictions.unshift(newPrediction);
-          localStorage.setItem('fs_local_predictions', JSON.stringify(predictions));
+          console.warn("Cloud database insert notice:", dbErr);
         }
       }
 
