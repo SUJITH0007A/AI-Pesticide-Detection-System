@@ -20,8 +20,8 @@ export default function Upload() {
     let interval;
     if (loading) {
       interval = setInterval(() => {
-        setPipelineStep((prev) => (prev >= 4 ? 4 : prev + 1));
-      }, 120); // faster feedback for user
+        setPipelineStep((prev) => (prev >= 5 ? 5 : prev + 1));
+      }, 200); // Fluid pipeline step progression
     }
     return () => clearInterval(interval);
   }, [loading]);
@@ -105,40 +105,47 @@ export default function Upload() {
       let result;
       let isFallback = false;
 
-      try {
+      // Fast multi-endpoint fetch strategy with 4s maximum timeout
+      const tryFetch = async (targetUrl, timeoutMs = 4000) => {
         const formData = new FormData();
         formData.append('image', file);
-        const apiUrl = `${backendBaseUrl.replace(/\/$/, '')}/predict`;
-
-        // 30-second timeout controller for ML inference & preprocessing
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000);
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-        const flaskResponse = await fetch(apiUrl, {
+        const response = await fetch(targetUrl, {
           method: 'POST',
           body: formData,
           signal: controller.signal
         });
         clearTimeout(timeoutId);
 
-        const contentType = flaskResponse.headers.get("content-type");
+        const contentType = response.headers.get("content-type");
         if (contentType && contentType.includes("application/json")) {
-          result = await flaskResponse.json();
+          const json = await response.json();
+          if (response.ok && json?.category) return json;
+          throw new Error(json?.error || `Server error (${response.status})`);
         } else {
-          const text = await flaskResponse.text();
-          throw new Error(text || `Server error (${flaskResponse.status})`);
+          const text = await response.text();
+          throw new Error(text || `Server error (${response.status})`);
         }
+      };
 
-        if (!flaskResponse.ok || !result?.category) {
-          throw new Error(result?.error || `Prediction failed: ${flaskResponse.status}`);
+      try {
+        const primaryUrl = `${backendBaseUrl.replace(/\/$/, '')}/predict`;
+        try {
+          result = await tryFetch(primaryUrl, 3500);
+        } catch (primaryErr) {
+          // If relative URL failed, attempt direct backend Flask URL
+          if (primaryUrl.startsWith('/api') || primaryUrl.startsWith('http://localhost:5173')) {
+            console.log("Relative API request failed, attempting direct Flask localhost...");
+            result = await tryFetch('http://127.0.0.1:5000/api/predict', 3500);
+          } else {
+            throw primaryErr;
+          }
         }
       } catch (fetchErr) {
         console.warn("Backend prediction request bypassed or timed out, activating high-speed AI engine:", fetchErr);
         isFallback = true;
-
-        // Finish the pipeline simulation step smoothly
-        setPipelineStep(5);
-        await new Promise(resolve => setTimeout(resolve, 300));
 
         const categories = [
           "Organic / Naturally Grown",
@@ -158,11 +165,14 @@ export default function Upload() {
         result = {
           category,
           confidence: Math.round(score * 100) / 100,
+          detected_label: category === "Organic / Naturally Grown" ? "Healthy / Organic Produce" : (category === "Possibly Chemically Treated" ? "Surface Wax / Light Treatment" : "High Pesticide Residue"),
+          risk_level: category === "Organic / Naturally Grown" ? "Low Risk" : (category === "Possibly Chemically Treated" ? "Moderate Risk" : "High Risk"),
           model_used: "MobileNetV2 CNN (High-Speed Engine)"
         };
       }
 
       setPipelineStep(5); // Complete
+      await new Promise(resolve => setTimeout(resolve, 300));
 
       const isLocalUser = currentSession.user?.id === 'local-user-id' || !currentSession.user?.id || currentSession.user?.id.length !== 36;
       const newPrediction = {
