@@ -13,13 +13,28 @@ export default function Report() {
   const [userName, setUserName] = useState('Guest User');
 
   useEffect(() => {
+    // Check local session first for demo users
+    const localSessionStr = localStorage.getItem('fs_local_session');
+    if (localSessionStr) {
+      try {
+        const localSession = JSON.parse(localSessionStr);
+        if (localSession?.user?.user_metadata?.full_name) {
+          setUserName(localSession.user.user_metadata.full_name);
+          return;
+        } else if (localSession?.user?.email) {
+          setUserName(localSession.user.email);
+          return;
+        }
+      } catch (e) {}
+    }
+    // Fall back to Supabase session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user?.user_metadata?.full_name) {
         setUserName(session.user.user_metadata.full_name);
       } else if (session?.user?.email) {
         setUserName(session.user.email);
       }
-    });
+    }).catch(() => {});
   }, []);
 
   // If no state is passed, redirect to upload

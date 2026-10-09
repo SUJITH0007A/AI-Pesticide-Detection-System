@@ -56,7 +56,7 @@ export default function Dashboard() {
               .eq('user_id', currentSession.user.id)
               .order('created_at', { ascending: false });
             
-            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Supabase query timeout")), 1200));
+            const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve({ data: null, error: new Error("Supabase query timeout") }), 1200));
             const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
 
             if (!error && data) cloudPredictions = data;

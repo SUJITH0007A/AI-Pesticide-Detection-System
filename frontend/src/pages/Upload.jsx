@@ -174,13 +174,35 @@ export default function Upload() {
       setPipelineStep(5); // Complete
       await new Promise(resolve => setTimeout(resolve, 300));
 
+      // Compress image to a small thumbnail for localStorage to avoid quota overflow
+      let compressedImage = preview;
+      try {
+        const img = new Image();
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = preview;
+        });
+        const canvas = document.createElement('canvas');
+        const MAX_DIM = 200;
+        const scale = Math.min(MAX_DIM / img.width, MAX_DIM / img.height, 1);
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        compressedImage = canvas.toDataURL('image/jpeg', 0.6);
+      } catch (compressErr) {
+        console.warn('Image compression skipped:', compressErr);
+      }
+
       const newPrediction = {
         id: crypto.randomUUID ? crypto.randomUUID() : (Math.random().toString(36).substring(2, 15)),
         user_id: currentSession.user?.id || 'local-user-id',
         category: result.category,
         confidence: result.confidence,
+        detected_label: result.detected_label || '',
+        risk_level: result.risk_level || '',
         model_used: result.model_used,
-        image_url: preview,
+        image_url: compressedImage,
         created_at: new Date().toISOString()
       };
 

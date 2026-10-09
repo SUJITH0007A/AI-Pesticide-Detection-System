@@ -4,6 +4,8 @@ create table public.predictions (
   user_id uuid references auth.users not null,
   category text not null,
   confidence numeric not null,
+  detected_label text,
+  risk_level text,
   model_used text,
   image_url text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
