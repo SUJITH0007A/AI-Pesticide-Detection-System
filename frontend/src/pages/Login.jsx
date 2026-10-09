@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { supabase, isSupabaseConfigured } from '../supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -9,6 +9,7 @@ export default function Login() {
   const [error, setError] = useState(null);
   const [showOfflineOption, setShowOfflineOption] = useState(false);
   const navigate = useNavigate();
+  const { loginWithPassword, loginOffline, isSupabaseConfigured } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,24 +19,15 @@ export default function Login() {
 
     try {
       if (!isSupabaseConfigured) {
-        setError('Supabase is not configured. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your .env file, or use Offline Demo Mode.');
+        setError('Supabase is not configured. Please use Offline Demo Mode to test the application.');
         setShowOfflineOption(true);
         return;
       }
 
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        throw error;
-      } else {
-        localStorage.removeItem('fs_local_session');
-        navigate('/dashboard');
-      }
+      await loginWithPassword(email, password);
+      navigate('/dashboard');
     } catch (err) {
-      console.error("Login error:", err);
+      console.error('Login error:', err);
       const isNetworkError = err.message === 'Failed to fetch' || err.message?.includes('fetch');
       if (!isSupabaseConfigured || isNetworkError) {
         setError('Supabase connection failed. Would you like to run in Offline/Demo Mode?');
@@ -50,18 +42,8 @@ export default function Login() {
   };
 
   const handleOfflineMode = () => {
-    const userEmail = email.trim() || 'demo@freshscan.local';
-    const mockSession = {
-      user: {
-        id: 'local-user-id',
-        email: userEmail,
-        user_metadata: {
-          full_name: userEmail.split('@')[0]
-        }
-      }
-    };
-    localStorage.setItem('fs_local_session', JSON.stringify(mockSession));
-    window.location.hash = '/dashboard';
+    loginOffline(email);
+    navigate('/dashboard');
   };
 
   return (

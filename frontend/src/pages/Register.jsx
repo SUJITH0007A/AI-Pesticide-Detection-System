@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { supabase, isSupabaseConfigured } from '../supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -8,52 +8,43 @@ export default function Register() {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [successInfo, setSuccessInfo] = useState(null);
   const [showOfflineOption, setShowOfflineOption] = useState(false);
   const navigate = useNavigate();
+  const { registerWithPassword, loginOffline, isSupabaseConfigured } = useAuth();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccessInfo(null);
     setShowOfflineOption(false);
 
     try {
       if (!isSupabaseConfigured) {
-        setError('Supabase is not configured. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your .env file, or use Offline Demo Mode.');
+        setError('Supabase is not configured. Please use Offline Demo Mode.');
         setShowOfflineOption(true);
         return;
       }
 
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: name,
-          },
-          emailRedirectTo: `${window.location.origin}/dashboard`
-        }
-      });
+      const data = await registerWithPassword(email, password, name);
 
-      if (error) {
-        throw error;
-      } else if (data && !data.session) {
-        // If email confirmation is enabled in Supabase, the session will be null.
-        // Alert the user and provide the option to run in offline demo mode.
-        setError('Registration successful! A verification link has been sent to your email. Please check your inbox. If you want to explore the application immediately without verifying your email, you can click "Use Local Demo Mode" below.');
+      if (data && !data.session) {
+        // If email confirmation is enabled in Supabase
+        setSuccessInfo('Registration successful! A verification link has been sent to your email. Check your inbox to confirm, or click "Use Local Demo Mode" below to explore immediately.');
         setShowOfflineOption(true);
       } else {
-        localStorage.removeItem('fs_local_session');
         navigate('/dashboard');
       }
     } catch (err) {
-      console.error("Register error:", err);
+      console.error('Register error:', err);
       const isNetworkError = err.message === 'Failed to fetch' || err.message?.includes('fetch');
       if (!isSupabaseConfigured || isNetworkError) {
         setError('Supabase connection failed. Would you like to create a local offline session?');
         setShowOfflineOption(true);
       } else {
         setError(err.message || 'An error occurred during registration.');
+        setShowOfflineOption(true);
       }
     } finally {
       setLoading(false);
@@ -61,19 +52,8 @@ export default function Register() {
   };
 
   const handleOfflineMode = () => {
-    const userEmail = email.trim() || 'demo@freshscan.local';
-    const mockSession = {
-      user: {
-        id: 'local-user-id',
-        email: userEmail,
-        user_metadata: {
-          full_name: name.trim() || userEmail.split('@')[0]
-        }
-      }
-    };
-    localStorage.setItem('fs_local_session', JSON.stringify(mockSession));
-    // Redirect using window.location to ensure App.jsx reads the new localStorage session
-    window.location.hash = '/dashboard';
+    loginOffline(email, name);
+    navigate('/dashboard');
   };
 
   return (
@@ -96,6 +76,25 @@ export default function Register() {
           <h2 className="font-title-lg text-title-lg font-bold text-on-surface">Create Account</h2>
           <p className="text-on-surface-variant text-body-md">Sign up to start scanning and saving reports</p>
         </div>
+
+        {/* Success Alert Panel (e.g. Email verification sent) */}
+        {successInfo && (
+          <div className="p-4 bg-primary-container/20 text-primary border border-primary/30 rounded-xl flex flex-col gap-2 text-body-md">
+            <div className="flex items-start gap-3">
+              <span className="material-symbols-outlined text-[20px] shrink-0 mt-0.5">mark_email_read</span>
+              <span>{successInfo}</span>
+            </div>
+            {showOfflineOption && (
+              <button
+                type="button"
+                onClick={handleOfflineMode}
+                className="mt-2 w-full py-2 bg-primary text-on-primary rounded-lg font-semibold text-body-md shadow-sm active:scale-[0.98] hover:bg-primary/90 transition-all"
+              >
+                Use Local Demo Mode
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Error Alert Panel */}
         {error && (

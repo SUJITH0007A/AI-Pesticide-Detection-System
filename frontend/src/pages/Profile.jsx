@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { useAuth } from '../context/AuthContext';
 
-export default function Profile({ session }) {
+export default function Profile({ session: propSession }) {
   const navigate = useNavigate();
+  const { session: authSession, logout } = useAuth();
+  const session = propSession || authSession;
+
   const [stats, setStats] = useState({
     total: 0,
     organic: 0,
@@ -72,12 +76,9 @@ export default function Profile({ session }) {
 
   const handleLogout = async () => {
     try {
-      await supabase.auth.signOut();
-    } catch (e) {
-      console.warn("Sign out notice:", e);
+      await logout();
     } finally {
-      localStorage.removeItem('fs_local_session');
-      window.location.hash = '/login';
+      navigate('/login');
     }
   };
 

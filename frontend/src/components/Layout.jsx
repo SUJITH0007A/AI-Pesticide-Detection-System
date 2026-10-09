@@ -1,5 +1,5 @@
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { supabase } from '../supabaseClient';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const navItems = [
   { path: '/dashboard', label: 'Home', icon: 'home' },
@@ -8,20 +8,20 @@ const navItems = [
   { path: '/profile', label: 'Profile', icon: 'person' },
 ];
 
-export default function Layout({ session }) {
+export default function Layout({ session: propSession }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { session: authSession, logout } = useAuth();
+  const session = propSession || authSession;
 
   const userEmail = session?.user?.email || 'User';
-  const userName = userEmail.split('@')[0];
+  const userName = session?.user?.user_metadata?.full_name || userEmail.split('@')[0];
 
   const handleLogout = async () => {
     try {
-      await supabase.auth.signOut();
-    } catch (e) {
-      console.warn("Sign out notice:", e);
+      await logout();
     } finally {
-      localStorage.removeItem('fs_local_session');
-      window.location.hash = '/login';
+      navigate('/login');
     }
   };
 

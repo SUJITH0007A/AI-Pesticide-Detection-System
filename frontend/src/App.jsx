@@ -1,6 +1,5 @@
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 // Pages
 import Login from './pages/Login';
@@ -13,103 +12,96 @@ import History from './pages/History';
 import Profile from './pages/Profile';
 import Layout from './components/Layout';
 
-function App() {
-  const initialSession = (() => {
-    const localSessionStr = localStorage.getItem('fs_local_session');
-    if (!localSessionStr) return null;
-    try {
-      return JSON.parse(localSessionStr);
-    } catch (e) {
-      console.error("Error parsing local session", e);
-      return null;
-    }
-  })();
-  const [session, setSession] = useState(initialSession);
-  const [loading, setLoading] = useState(() => (initialSession || !isSupabaseConfigured ? false : true));
-
-  useEffect(() => {
-    let isMounted = true;
-    const fallbackTimer = setTimeout(() => {
-      if (isMounted) setLoading(false);
-    }, 1000);
-
-    if (!isSupabaseConfigured) {
-      setLoading(false);
-      clearTimeout(fallbackTimer);
-      return;
-    }
-
-    // Get current session from Supabase
-    supabase.auth.getSession().then(({ data: { session: supaSession } }) => {
-      if (isMounted && supaSession) {
-        setSession(supaSession);
-      }
-      if (isMounted) setLoading(false);
-      clearTimeout(fallbackTimer);
-    }).catch((err) => {
-      console.warn("Supabase auth session fetch failed:", err);
-      if (isMounted) setLoading(false);
-      clearTimeout(fallbackTimer);
-    });
-
-    // Listen for auth state changes (login, logout, token refresh)
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, supaSession) => {
-      if (!isMounted) return;
-      if (supaSession) {
-        setSession(supaSession);
-      } else {
-        const localSessionStr = localStorage.getItem('fs_local_session');
-        if (localSessionStr) {
-          try {
-            setSession(JSON.parse(localSessionStr));
-          } catch {
-            setSession(null);
-          }
-        } else {
-          setSession(null);
-        }
-      }
-    });
-
-    return () => {
-      isMounted = false;
-      clearTimeout(fallbackTimer);
-      if (subscription) subscription.unsubscribe();
-    };
-  }, []);
-
+function ProtectedRoute({ children }) {
+  const { session, loading } = useAuth();
   if (loading) {
-    return <div className="flex items-center justify-center bg-background min-h-screen text-on-surface font-title-lg">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center bg-background min-h-screen text-on-surface font-title-lg">
+        <div className="flex flex-col items-center gap-3">
+          <span className="material-symbols-outlined text-4xl text-primary animate-spin">sync</span>
+          <span className="font-semibold text-on-surface-variant">Loading FreshScan...</span>
+        </div>
+      </div>
+    );
   }
+  if (!session) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
+
+function PublicRoute({ children }) {
+  const { session, loading } = useAuth();
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center bg-background min-h-screen text-on-surface font-title-lg">
+        <div className="flex flex-col items-center gap-3">
+          <span className="material-symbols-outlined text-4xl text-primary animate-spin">sync</span>
+          <span className="font-semibold text-on-surface-variant">Loading FreshScan...</span>
+        </div>
+      </div>
+    );
+  }
+  if (session) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return children;
+}
+
+function AppRoutes() {
+  const { session } = useAuth();
 
   return (
+    <Routes>
+      {/* Public Routes */}
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
+
+      {/* Protected Routes Wrapped in Layout */}
+      <Route
+        element={
+          <ProtectedRoute>
+            <Layout session={session} />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/result" element={<Result />} />
+        <Route path="/report" element={<Report />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/profile" element={<Profile session={session} />} />
+      </Route>
+
+      {/* Default Route */}
+      <Route
+        path="*"
+        element={<Navigate to={session ? '/dashboard' : '/login'} replace />}
+      />
+    </Routes>
+  );
+}
+
+function App() {
+  return (
     <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route 
-          path="/login" 
-          element={!session ? <Login /> : <Navigate to="/dashboard" />} 
-        />
-        <Route 
-          path="/register" 
-          element={!session ? <Register /> : <Navigate to="/dashboard" />} 
-        />
-
-        {/* Protected Routes Wrapped in Layout */}
-        <Route element={session ? <Layout session={session} /> : <Navigate to="/login" />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/result" element={<Result />} />
-          <Route path="/report" element={<Report />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/profile" element={<Profile session={session} />} />
-        </Route>
-
-        {/* Default Route */}
-        <Route path="*" element={<Navigate to={session ? "/dashboard" : "/login"} />} />
-      </Routes>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
     </Router>
   );
 }
